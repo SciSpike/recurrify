@@ -1,0 +1,11 @@
+language: node_js
+node_js:
+- '8'
+deploy:
+  provider: npm
+  email: npm@scispike.com
+  api_key:
+    secure: DLqoGABnx8NnZ9mJ95Qbd5fQqqstYBtwFmPxGfJaMpzMcli/+/BbV1Zit82MIJXcPp248pJLLjA62w7Inh9lPw5XddPIhWlUZWIuTczAX1+Y/xgDP0947j7tjGdDUpxp6900ClGvZcuHfIu0HzYzpXCkNdorEpZjMn5/fk5VLpbTCl9TN5XxBo1uB63Eib280QipqTeghAGkB5ycSmrNBOkrQb86ji8wfej3GQNOjf+w/eVkmCEkZS1wtafpCYWSm0EKoRaOLPESucNvrEhe0uIlKv7k16ZqmIZ8AJz5u4A3LOzrFWgwtMahQRvaRXTNtWNw+nCQfXahEDwEq+CflcHKnkcbkXEolbAxxbVQpsqjFMmjJGqk0B5WFr2rYlKhx2kP5J6LVnwugzoibMk1oDRt4abJHV50A3CM6S0tp2YGg61hKE9vL1q2IGNI7n/X+pAUZX1GE90dTPy1iNqZ2KPlShinhee1cEFIO2D2ubBI7h/Pok4Z8xG5sj8o5b2OX3SGCKzVrefFFpl7Vjk5W18pWOxX/9kZXKtxFTK/PvH6n8yf/ufon4/MbfLj3tOTsCdh3SFKipup60ZIUF/JAwt0oEtg7mmZ1SqmML4ZXVQu47J5AxHdG37yqC/aFwzbwF1szUkfTLdCDHvkwX9JTpPNosQ42/Jre8XKxIUVEfE=
+  on:
+    tags: true
+    repo: SciSpike/cronicle

@@ -1,0 +1,21 @@
+{
+  "name": "cronicle",
+  "version": "0.0.0-pre.0",
+  "description": "TODO",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/SciSpike/cronicle.git"
+  },
+  "keywords": [
+    "cron"
+  ],
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/SciSpike/cronicle/issues"
+  },
+  "homepage": "https://github.com/SciSpike/cronicle#readme"
+}
