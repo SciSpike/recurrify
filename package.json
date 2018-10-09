@@ -4,7 +4,7 @@
   "description": "TODO",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "./node_modules/.bin/mocha test/**/*-test.js"
   },
   "repository": {
     "type": "git",
@@ -17,5 +17,10 @@
   "bugs": {
     "url": "https://github.com/SciSpike/cronicle/issues"
   },
-  "homepage": "https://github.com/SciSpike/cronicle#readme"
+  "homepage": "https://github.com/SciSpike/cronicle#readme",
+  "devDependencies": {
+    "mocha": "5.2.0",
+    "should": "13.2.3",
+    "smash": "0.0.15"
+  }
 }

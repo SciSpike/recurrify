@@ -1,5 +1,3 @@
 'use strict'
 
-module.exports = {
-  todo: 'todo'
-}
+module.exports = require('./lib/later')
