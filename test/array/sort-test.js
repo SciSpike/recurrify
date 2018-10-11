@@ -1,42 +1,46 @@
-var later = require('../../index'),
-    should = require('should');
+/* eslint-env mocha */
+var later = require('../../index')
 
-describe('Later.array.sort', function() {
+var should = require('should')
 
-  it('should exist', function() {
-    should.exist(later.array.sort);
-  });
+describe('Later.array.sort', function () {
+  it('should exist', function () {
+    should.exist(later.array.sort)
+  })
 
-  it('should not modify arrays that are already sorted', function() {
-    var arr = [1,2,3,4,5],
-        expected = [1,2,3,4,5];
+  it('should not modify arrays that are already sorted', function () {
+    var arr = [1, 2, 3, 4, 5]
 
-    later.array.sort(arr);
-    arr.should.eql(expected);
-  });
+    var expected = [1, 2, 3, 4, 5]
 
-  it('should sort in natural order', function() {
-    var arr = [6,9,2,4,3],
-        expected = [2,3,4,6,9];
+    later.array.sort(arr)
+    arr.should.eql(expected)
+  })
 
-    later.array.sort(arr);
-    arr.should.eql(expected);
-  });
+  it('should sort in natural order', function () {
+    var arr = [6, 9, 2, 4, 3]
 
-  it('should put zero at the front by default', function() {
-    var arr = [6,9,2,0,4,3],
-        expected = [0,2,3,4,6,9];
+    var expected = [2, 3, 4, 6, 9]
 
-    later.array.sort(arr);
-    arr.should.eql(expected);
-  });
+    later.array.sort(arr)
+    arr.should.eql(expected)
+  })
 
-  it('should put zero at the end if zeroIsLast is true', function() {
-    var arr = [6,9,2,0,4,3],
-        expected = [2,3,4,6,9,0];
+  it('should put zero at the front by default', function () {
+    var arr = [6, 9, 2, 0, 4, 3]
 
-    later.array.sort(arr, true);
-    arr.should.eql(expected);
-  });
+    var expected = [0, 2, 3, 4, 6, 9]
 
-});
+    later.array.sort(arr)
+    arr.should.eql(expected)
+  })
+
+  it('should put zero at the end if zeroIsLast is true', function () {
+    var arr = [6, 9, 2, 0, 4, 3]
+
+    var expected = [2, 3, 4, 6, 9, 0]
+
+    later.array.sort(arr, true)
+    arr.should.eql(expected)
+  })
+})

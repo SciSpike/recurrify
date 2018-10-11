@@ -5,6 +5,7 @@
   "main": "index.js",
   "scripts": {
     "test": "npm-run-all lint unit",
+    "cov": "open ./coverage/lcov-report/index.html",
     "u": "mocha test/**/*-test.js",
     "lint": "standard --verbose | snazzy",
     "unit": "nyc mocha test/**/*-test.js"

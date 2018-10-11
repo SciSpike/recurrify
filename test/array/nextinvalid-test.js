@@ -1,59 +1,80 @@
-var later = require('../../index'),
-    should = require('should');
+/* eslint-env mocha */
+var later = require('../../index')
 
-describe('Later.array.nextInvalid', function() {
+var should = require('should')
 
-  it('should exist', function() {
-    should.exist(later.array.nextInvalid);
-  });
+describe('Later.array.nextInvalid', function () {
+  it('should exist', function () {
+    should.exist(later.array.nextInvalid)
+  })
 
-  it('should return the next invalid value', function() {
-    var arr = [1,2,5],
-        extent = [1,5],
-        cur = 2,
-        expected = 3,
-        actual = later.array.nextInvalid(cur, arr, extent);
+  it('should return the next invalid value', function () {
+    var arr = [1, 2, 5]
 
-    actual.should.eql(expected);
-  });
+    var extent = [1, 5]
 
-  it('should return the next invalid value when greater than arr', function() {
-    var arr = [1,2,5],
-        extent = [1,10],
-        cur = 5,
-        expected = 6,
-        actual = later.array.nextInvalid(cur, arr, extent);
+    var cur = 2
 
-    actual.should.eql(expected);
-  });
+    var expected = 3
 
-  it('should return the next invalid value when zero value is largest', function() {
-    var arr = [1,2,5, 0],
-        extent = [1,31],
-        cur = 31,
-        expected = 3,
-        actual = later.array.nextInvalid(cur, arr, extent);
+    var actual = later.array.nextInvalid(cur, arr, extent)
 
-    actual.should.eql(expected);
-  });
+    actual.should.eql(expected)
+  })
 
-  it('should return the next invalid value when zero value is smallest', function() {
-    var arr = [0,1,2,5,10],
-        extent = [0,10],
-        cur = 10,
-        expected = 3,
-        actual = later.array.nextInvalid(cur, arr, extent);
+  it('should return the next invalid value when greater than arr', function () {
+    var arr = [1, 2, 5]
 
-    actual.should.eql(expected);
-  });
+    var extent = [1, 10]
 
-  it('should return the current value if it is invalid', function() {
-    var arr = [0,1,2,5,10],
-        extent = [0,10],
-        cur = 4,
-        expected = 4,
-        actual = later.array.nextInvalid(cur, arr, extent);
+    var cur = 5
 
-    actual.should.eql(expected);
-  });
-});
+    var expected = 6
+
+    var actual = later.array.nextInvalid(cur, arr, extent)
+
+    actual.should.eql(expected)
+  })
+
+  it('should return the next invalid value when zero value is largest', function () {
+    var arr = [1, 2, 5, 0]
+
+    var extent = [1, 31]
+
+    var cur = 31
+
+    var expected = 3
+
+    var actual = later.array.nextInvalid(cur, arr, extent)
+
+    actual.should.eql(expected)
+  })
+
+  it('should return the next invalid value when zero value is smallest', function () {
+    var arr = [0, 1, 2, 5, 10]
+
+    var extent = [0, 10]
+
+    var cur = 10
+
+    var expected = 3
+
+    var actual = later.array.nextInvalid(cur, arr, extent)
+
+    actual.should.eql(expected)
+  })
+
+  it('should return the current value if it is invalid', function () {
+    var arr = [0, 1, 2, 5, 10]
+
+    var extent = [0, 10]
+
+    var cur = 4
+
+    var expected = 4
+
+    var actual = later.array.nextInvalid(cur, arr, extent)
+
+    actual.should.eql(expected)
+  })
+})

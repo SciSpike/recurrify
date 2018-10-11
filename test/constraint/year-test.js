@@ -1,9 +1,9 @@
-var later = require('../../index'),
-    runner = require('./runner')(later, later.year),
-    should = require('should');
+/* eslint-env mocha */
+var later = require('../../index')
 
-describe('Later.year', function() {
+var runner = require('./runner')(later, later.year)
 
+describe('Later.year', function () {
   var tests = [
     {
       // first second of year
@@ -109,8 +109,7 @@ describe('Later.year', function() {
       start: new Date(2017, 0, 1),
       end: new Date(2017, 11, 31, 23, 59, 59)
     }
-  ];
+  ]
 
-  runner.run(tests, true);
-
-});
+  runner.run(tests, true)
+})
