@@ -174,4 +174,154 @@ describe('Schedule', function() {
     });
   });
 
+  describe('all', function() {
+    it('should return the start date as the first entry in results if it is valid', function() {
+      const startDate = new Date('2013-03-21T00:00:05Z')
+      const endDate = new Date('2020-01-01T00:00:05Z')
+
+      const s = {schedules: [{Y:[2013], M:[3], D:[21], s:[5]}]}
+      schedule(s).all(startDate)[0].should.eql(startDate)
+    })
+
+    it('should return all valid dates if one exists', function() {
+      const startDate = new Date('2013-03-21T00:00:05Z')
+      const endDate = new Date('2020-01-01T00:00:05Z')
+      const s = {schedules: [{Y:[2015, 2016, 2018]}]}
+
+      schedule(s).all(startDate, endDate).should.eql([
+        new Date('2015-01-01T00:00:00Z'),
+        new Date('2016-01-01T00:00:00Z'),
+        new Date('2018-01-01T00:00:00Z')
+      ])
+    })
+
+    // TODO: bug - doesn't work
+    it.skip('should return all valid dates with year only composite', function() {
+      const startDate = new Date('2013-03-21T00:00:05Z')
+      const endDate = new Date('2020-01-01T00:00:05Z')
+      var s = {schedules: [{Y:[2017]},{Y:[2015]},{Y:[2018]}]};
+
+      schedule(s).all(startDate, endDate).should.eql([
+        new Date('2015-01-01T00:00:00Z'),
+        new Date('2017-01-01T00:00:00Z'),
+        new Date('2018-01-01T00:00:00Z')
+      ])
+    })
+
+    it('should return all valid dates with composite', function() {
+      const startDate = new Date('2013-03-21T00:00:05Z')
+      var s = {schedules: [{Y:[2017]},{Y:[2015]}]}
+
+      schedule(s).all(startDate).should.eql([
+        new Date('2015-01-01T00:00:00Z'),
+        new Date('2017-01-01T00:00:00Z')
+      ])
+    })
+
+    it('should return every Tue,Thu at 4:30 in October 2018', function() {
+      const startDate = new Date('2018-10-01T00:00:00Z')
+      const endDate = new Date('2018-11-01T00:00:00Z')
+      const s = {
+        schedules: [
+          {dw:[3,5], h:[4], m:[30]}
+        ]
+      }
+      schedule(s).all(startDate, endDate).should.eql([
+        new Date('2018-10-02T04:30:00.000Z'),
+        new Date('2018-10-04T04:30:00.000Z'),
+        new Date('2018-10-09T04:30:00.000Z'),
+        new Date('2018-10-11T04:30:00.000Z'),
+        new Date('2018-10-16T04:30:00.000Z'),
+        new Date('2018-10-18T04:30:00.000Z'),
+        new Date('2018-10-23T04:30:00.000Z'),
+        new Date('2018-10-25T04:30:00.000Z'),
+        new Date('2018-10-30T04:30:00.000Z')
+      ])
+    })
+
+    it('should return all with composite', function() {
+      const startDate = new Date('2018-10-01T00:00:00Z')
+      const endDate = new Date('2018-11-01T00:00:00Z')
+      const s = {
+        schedules: [
+          {dw:[3,5], h:[4], m:[30]},
+          {dw:[1], h:[1], m:[0]},
+        ]
+      }
+      schedule(s).all(startDate, endDate).should.eql([
+        new Date('2018-10-02T04:30:00.000Z'),
+        new Date('2018-10-04T04:30:00.000Z'),
+        new Date('2018-10-07T01:00:00.000Z'),
+        new Date('2018-10-09T04:30:00.000Z'),
+        new Date('2018-10-11T04:30:00.000Z'),
+        new Date('2018-10-14T01:00:00.000Z'),
+        new Date('2018-10-16T04:30:00.000Z'),
+        new Date('2018-10-18T04:30:00.000Z'),
+        new Date('2018-10-21T01:00:00.000Z'),
+        new Date('2018-10-23T04:30:00.000Z'),
+        new Date('2018-10-25T04:30:00.000Z'),
+        new Date('2018-10-28T01:00:00.000Z'),
+        new Date('2018-10-30T04:30:00.000Z')
+      ])
+    })
+
+    it('should return all with composite with exception', function() {
+      const startDate = new Date('2018-10-01T00:00:00Z')
+      const endDate = new Date('2018-11-01T00:00:00Z')
+      const s = {
+        schedules: [
+          {dw:[3,5], h:[4], m:[30]},
+          {dw:[1], h:[1], m:[0]},
+        ],
+        exceptions: [
+          {D:[2,21]}
+        ]
+      }
+      schedule(s).all(startDate, endDate).should.eql([
+        new Date('2018-10-04T04:30:00.000Z'),
+        new Date('2018-10-07T01:00:00.000Z'),
+        new Date('2018-10-09T04:30:00.000Z'),
+        new Date('2018-10-11T04:30:00.000Z'),
+        new Date('2018-10-14T01:00:00.000Z'),
+        new Date('2018-10-16T04:30:00.000Z'),
+        new Date('2018-10-18T04:30:00.000Z'),
+        new Date('2018-10-23T04:30:00.000Z'),
+        new Date('2018-10-25T04:30:00.000Z'),
+        new Date('2018-10-28T01:00:00.000Z'),
+        new Date('2018-10-30T04:30:00.000Z')
+      ])
+    })
+
+    it('should return later.NEVER if no valid date exists', function() {
+      const startDate = new Date('2018-10-01T00:00:00Z')
+      const endDate = new Date('2018-11-01T00:00:00Z')
+      const s = {schedules: [{Y:[2012]}]}
+      should.equal(schedule(s).all(startDate, endDate), later.NEVER)
+    })
+
+    it('should return later.NEVER if no valid date exists with only startDate passed', function() {
+      const startDate = new Date('2018-10-01T00:00:00Z')
+      const s = {schedules: [{Y:[2012]}]}
+      should.equal(schedule(s).all(startDate), later.NEVER)
+    })
+
+    it('should return later.NEVER if end date precludes a valid schedule', function() {
+      const startDate = new Date('2013-03-21T00:00:05Z')
+      const endDate = new Date('2016-01-01T00:00:05Z')
+      const s = {schedules: [{Y:[2017]}]}
+      should.equal(schedule(s).all(startDate, endDate), later.NEVER)
+    })
+
+    it('should return all valid dates if one exists with exceptions', function() {
+      const startDate = new Date('2013-03-21T00:00:05Z')
+      const endDate = new Date('2020-01-01T00:00:05Z')
+      const s = {schedules: [{Y:[2015,2016,2017,2019]}], exceptions: [{Y:[2015]}]}
+      schedule(s).all(startDate, endDate).should.eql([
+        new Date('2016-01-01T00:00:00Z'),
+        new Date('2017-01-01T00:00:00Z'),
+        new Date('2019-01-01T00:00:00Z')
+      ])
+    })
+  });
+
 });
