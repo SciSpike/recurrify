@@ -53,9 +53,9 @@ $ node example.js
 `$ npm test`
 
 ## Schedules
-Schedules in Later are json objects that define a set of time periods along with the values that should be considered valid for that time period. The combination of a time period with their valid values is called a *constraint*. Later then takes all of the constraints that have been defined and finds dates that match all of them.
+Schedules in Cronicle are json objects that define a set of time periods along with the values that should be considered valid for that time period. The combination of a time period with their valid values is called a *constraint*. Cronicle then takes all of the constraints that have been defined and finds dates that match all of them.
 
-Since Later schedules are json objects, they can easily be serialized and stored in caches and databases as needed. They are also completely deterministic which means a schedule will always produce exactly the same valid occurrences. Therefore, occurrences never need to be stored as they can always be recalculated from the schedule definition.
+Since Cronicle schedules are json objects, they can easily be serialized and stored in caches and databases as needed. They are also completely deterministic which means a schedule will always produce exactly the same valid occurrences. Therefore, occurrences never need to be stored as they can always be recalculated from the schedule definition.
 
 ## Basic schedules
 A basic schedule is a set of time periods along with their valid values. A date is only considered valid if it meets all of the constraints within a basic schedule. A basic schedule can include as many time periods (with or without modifiers) as needed, in any order.
@@ -129,7 +129,7 @@ const schedule = {
 ```
 
 ## Performance considerations
-While Later has been designed to efficiently calculate occurrences for all types and complexities of schedules, there are a few things to keep in mind for applications that have particularly high performance requirements.
+While Cronicle has been designed to efficiently calculate occurrences for all types and complexities of schedules, there are a few things to keep in mind for applications that have particularly high performance requirements.
 
 * Basic time periods perform the best. These include years, months, days, hours, minutes, and seconds. Calculating ISO week of year is particularly expensive.
 * Schedules without exceptions perform better than those with exceptions. Defining your schedule without the need for exceptions will improve performance.
@@ -138,11 +138,11 @@ While Later has been designed to efficiently calculate occurrences for all types
 
 
 ## Time periods
-Time periods are the crux of the Later library and are used to define new schedules. Later comes with a large assortment of time periods and is also fully extensible making it easy to create custom time periods.
+Time periods are the crux of the Cronicle library and are used to define new schedules. Cronicle comes with a large assortment of time periods and is also fully extensible making it easy to create custom time periods.
 
-While time periods are primarily used by Later to define schedules and calculate occurrences, they are also useful for performing time based calculations. Calculating values such as ISO week number, moving between days of the year, or figuring out how many days are in a month are all possible using the time period interface.
+While time periods are primarily used by Cronicle to define schedules and calculate occurrences, they are also useful for performing time based calculations. Calculating values such as ISO week number, moving between days of the year, or figuring out how many days are in a month are all possible using the time period interface.
 
-If you don't see the time period that you need for your schedule, Later is fully extensible and it is easy to write your own. See the custom time period at the bottom of this page for an example.
+If you don't see the time period that you need for your schedule, Cronicle is fully extensible and it is easy to write your own. See the custom time period at the bottom of this page for an example.
 
 ## Interface
 All time periods implement the same public interface for interacting with them:
@@ -188,31 +188,31 @@ Performing seconds based calculations:
 ```
 var d = new Date('2013-03-22T10:02:05Z');
 
-later.second.name;
+cronicle.second.name;
 --> 'second'
 
-later.second.range;
+cronicle.second.range;
 --> 1
 
-later.second.val(d);
+cronicle.second.val(d);
 --> 5
 
-later.second.isValid(d, 10);
+cronicle.second.isValid(d, 10);
 --> false
 
-later.second.extent();
+cronicle.second.extent();
 --> [0, 59]
 
-later.second.start(d);
+cronicle.second.start(d);
 --> 'Fri, 22 Mar 2013 10:02:05 GMT'
 
-later.second.end(d);
+cronicle.second.end(d);
 --> 'Fri, 22 Mar 2013 10:02:05 GMT'
 
-later.second.next(d, 27);
+cronicle.second.next(d, 27);
 --> 'Fri, 22 Mar 2013 10:02:27 GMT'
 
-later.second.prev(d, 27);
+cronicle.second.prev(d, 27);
 --> 'Fri, 22 Mar 2013 10:01:27 GMT'
 ```
 
@@ -229,31 +229,31 @@ Performing minutes based calculations:
 ```
 var d = new Date('2013-03-22T10:02:05Z');
 
-later.minute.name;
+cronicle.minute.name;
 --> 'minute'
 
-later.minute.range;
+cronicle.minute.range;
 --> 60
 
-later.minute.val(d);
+cronicle.minute.val(d);
 --> 2
 
-later.minute.isValid(d, 2);
+cronicle.minute.isValid(d, 2);
 --> true
 
-later.minute.extent();
+cronicle.minute.extent();
 --> [0, 59]
 
-later.minute.start(d);
+cronicle.minute.start(d);
 --> 'Fri, 22 Mar 2013 10:02:00 GMT'
 
-later.minute.end(d);
+cronicle.minute.end(d);
 --> 'Fri, 22 Mar 2013 10:02:59 GMT'
 
-later.minute.next(d, 27);
+cronicle.minute.next(d, 27);
 --> 'Fri, 22 Mar 2013 10:27:00 GMT'
 
-later.minute.prev(d, 27);
+cronicle.minute.prev(d, 27);
 --> 'Fri, 22 Mar 2013 09:27:59 GMT'
 ```
 
@@ -270,31 +270,31 @@ Performing hours based calculations:
 ```
 var d = new Date('2013-03-22T10:02:05Z');
 
-later.hour.name;
+cronicle.hour.name;
 --> 'hour'
 
-later.hour.range;
+cronicle.hour.range;
 --> 3600
 
-later.hour.val(d);
+cronicle.hour.val(d);
 --> 10
 
-later.hour.isValid(d, 2);
+cronicle.hour.isValid(d, 2);
 --> false
 
-later.hour.extent();
+cronicle.hour.extent();
 --> [0, 23]
 
-later.hour.start(d);
+cronicle.hour.start(d);
 --> 'Fri, 22 Mar 2013 10:00:00 GMT'
 
-later.hour.end(d);
+cronicle.hour.end(d);
 --> 'Fri, 22 Mar 2013 10:59:59 GMT'
 
-later.hour.next(d, 5);
+cronicle.hour.next(d, 5);
 --> 'Sat, 23 Mar 2013 05:00:00 GMT'
 
-later.hour.prev(d, 21);
+cronicle.hour.prev(d, 21);
 --> 'Thu, 21 Mar 2013 21:59:59 GMT'
 ```
 
@@ -311,31 +311,31 @@ Performing time based calculations:
 ```
 var d = new Date('2013-03-22T10:02:05Z');
 
-later.time.name;
+cronicle.time.name;
 --> 'time'
 
-later.time.range;
+cronicle.time.range;
 --> 1
 
-later.time.val(d);
+cronicle.time.val(d);
 --> 36125
 
-later.time.isValid(d, 36125);
+cronicle.time.isValid(d, 36125);
 --> true
 
-later.time.extent();
+cronicle.time.extent();
 --> [0, 86399]
 
-later.time.start(d);
+cronicle.time.start(d);
 --> 'Fri, 22 Mar 2013 00:00:00 GMT'
 
-later.time.end(d);
+cronicle.time.end(d);
 --> 'Fri, 22 Mar 2013 23:59:59 GMT'
 
-later.time.next(d, 60);
+cronicle.time.next(d, 60);
 --> 'Sat, 23 Mar 2013 00:01:00 GMT'
 
-later.time.prev(d, 60);
+cronicle.time.prev(d, 60);
 --> 'Fri, 22 Mar 2013 00:01:00 GMT'
 ```
 
@@ -352,31 +352,31 @@ Performing day based calculations:
 ```
 var d = new Date('2013-03-22T10:02:05Z');
 
-later.day.name;
+cronicle.day.name;
 --> 'day'
 
-later.day.range;
+cronicle.day.range;
 --> 86400
 
-later.day.val(d);
+cronicle.day.val(d);
 --> 22
 
-later.day.isValid(d, 3);
+cronicle.day.isValid(d, 3);
 --> false
 
-later.day.extent(d);
+cronicle.day.extent(d);
 --> [1, 31]
 
-later.day.start(d);
+cronicle.day.start(d);
 --> 'Fri, 22 Mar 2013 00:00:00 GMT'
 
-later.day.end(d);
+cronicle.day.end(d);
 --> 'Fri, 22 Mar 2013 23:59:59 GMT'
 
-later.day.next(d, 11);
+cronicle.day.next(d, 11);
 --> 'Thu, 11 Apr 2013 00:00:00 GMT'
 
-later.day.prev(d, 2);
+cronicle.day.prev(d, 2);
 --> 'Sat, 02 Mar 2013 23:59:59 GMT'
 ```
 
@@ -393,31 +393,31 @@ Performing day of week based calculations:
 ```
 var d = new Date('2013-03-22T10:02:05Z');
 
-later.dayOfWeek.name;
+cronicle.dayOfWeek.name;
 --> 'day of week'
 
-later.dayOfWeek.range;
+cronicle.dayOfWeek.range;
 --> 86400
 
-later.dayOfWeek.val(d);
+cronicle.dayOfWeek.val(d);
 --> 6
 
-later.dayOfWeek.isValid(d, 3);
+cronicle.dayOfWeek.isValid(d, 3);
 --> false
 
-later.dayOfWeek.extent();
+cronicle.dayOfWeek.extent();
 --> [1, 7]
 
-later.dayOfWeek.start(d);
+cronicle.dayOfWeek.start(d);
 --> 'Fri, 22 Mar 2013 00:00:00 GMT'
 
-later.dayOfWeek.end(d);
+cronicle.dayOfWeek.end(d);
 --> 'Fri, 22 Mar 2013 23:59:59 GMT'
 
-later.dayOfWeek.next(d, 1);
+cronicle.dayOfWeek.next(d, 1);
 --> 'Sun, 24 Mar 2013 00:00:00 GMT'
 
-later.dayOfWeek.prev(d, 5);
+cronicle.dayOfWeek.prev(d, 5);
 --> 'Thu, 21 Mar 2013 23:59:59 GMT'
 ```
 
@@ -434,35 +434,35 @@ Performing day of week count based calculations:
 ```
 var d = new Date('2013-03-22T10:02:05Z');
 
-later.dayOfWeekCount.name;
+cronicle.dayOfWeekCount.name;
 --> 'day of week count'
 
-later.dayOfWeekCount.range;
+cronicle.dayOfWeekCount.range;
 --> 604800
 
-later.dayOfWeekCount.val(d);
+cronicle.dayOfWeekCount.val(d);
 --> 4
 
-later.dayOfWeekCount.isValid(d, 4);
+cronicle.dayOfWeekCount.isValid(d, 4);
 --> true
 
-later.dayOfWeekCount.extent(d);
+cronicle.dayOfWeekCount.extent(d);
 --> [1, 5]
 
-later.dayOfWeekCount.start(d);
+cronicle.dayOfWeekCount.start(d);
 --> 'Fri, 22 Mar 2013 00:00:00 GMT'
 
-later.dayOfWeekCount.end(d);
+cronicle.dayOfWeekCount.end(d);
 --> 'Thu, 28 Mar 2013 23:59:59 GMT'
 
 // zero is special cased and means the last instance of
 // a day of the week in the month, instead of meaning the
 // first day of the week with the highest instance count
 // which would have been Mar 29 with value 5.
-later.dayOfWeekCount.next(d, 0);
+cronicle.dayOfWeekCount.next(d, 0);
 --> 'Mon, 25 Mar 2013 00:00:00 GMT'
 
-later.dayOfWeekCount.prev(d, 2);
+cronicle.dayOfWeekCount.prev(d, 2);
 --> 'Thu, 14 Mar 2013 23:59:59 GMT'
 ```
 
@@ -479,31 +479,31 @@ Performing day of year based calculations:
 ```
 var d = new Date('2013-03-22T10:02:05Z');
 
-later.dayOfYear.name;
+cronicle.dayOfYear.name;
 --> 'day of year'
 
-later.dayOfYear.range;
+cronicle.dayOfYear.range;
 --> 86400
 
-later.dayOfYear.val(d);
+cronicle.dayOfYear.val(d);
 --> 81
 
-later.dayOfYear.isValid(d, 4);
+cronicle.dayOfYear.isValid(d, 4);
 --> false
 
-later.dayOfYear.extent(d);
+cronicle.dayOfYear.extent(d);
 --> [1, 365]
 
-later.dayOfYear.start(d);
+cronicle.dayOfYear.start(d);
 --> 'Fri, 22 Mar 2013 00:00:00 GMT'
 
-later.dayOfYear.end(d);
+cronicle.dayOfYear.end(d);
 --> 'Fri, 22 Mar 2013 23:59:59 GMT'
 
-later.dayOfYear.next(d, 256);
+cronicle.dayOfYear.next(d, 256);
 --> 'Fri, 13 Sep 2013 00:00:00 GMT'
 
-later.dayOfYear.prev(d, 44);
+cronicle.dayOfYear.prev(d, 44);
 --> 'Wed, 13 Feb 2013 23:59:59 GMT'
 ```
 
@@ -520,31 +520,31 @@ Performing week of month based calculations:
 ```
 var d = new Date('2013-03-22T10:02:05Z');
 
-later.weekOfMonth.name;
+cronicle.weekOfMonth.name;
 --> 'week of month'
 
-later.weekOfMonth.range;
+cronicle.weekOfMonth.range;
 --> 604800
 
-later.weekOfMonth.val(d);
+cronicle.weekOfMonth.val(d);
 --> 4
 
-later.weekOfMonth.isValid(d, 4);
+cronicle.weekOfMonth.isValid(d, 4);
 --> true
 
-later.weekOfMonth.extent(d);
+cronicle.weekOfMonth.extent(d);
 --> [1, 6]
 
-later.weekOfMonth.start(d);
+cronicle.weekOfMonth.start(d);
 --> 'Sun, 17 Mar 2013 00:00:00 GMT'
 
-later.weekOfMonth.end(d);
+cronicle.weekOfMonth.end(d);
 --> 'Sat, 23 Mar 2013 23:59:59 GMT'
 
-later.weekOfMonth.next(d, 1);
+cronicle.weekOfMonth.next(d, 1);
 --> 'Mon, 01 Apr 2013 00:00:00 GMT'
 
-later.weekOfMonth.prev(d, 2);
+cronicle.weekOfMonth.prev(d, 2);
 --> 'Sat, 09 Mar 2013 23:59:59 GMT'
 ```
 
@@ -561,31 +561,31 @@ Performing week of year based calculations:
 ```
 var d = new Date('2013-03-22T10:02:05Z');
 
-later.weekOfYear.name;
+cronicle.weekOfYear.name;
 --> 'week of year'
 
-later.weekOfYear.range;
+cronicle.weekOfYear.range;
 --> 604800
 
-later.weekOfYear.val(d);
+cronicle.weekOfYear.val(d);
 --> 12
 
-later.weekOfYear.isValid(d, 21);
+cronicle.weekOfYear.isValid(d, 21);
 --> false
 
-later.weekOfYear.extent(d);
+cronicle.weekOfYear.extent(d);
 --> [1, 52]
 
-later.weekOfYear.start(d);
+cronicle.weekOfYear.start(d);
 --> 'Mon, 18 Mar 2013 00:00:00 GMT'
 
-later.weekOfYear.end(d);
+cronicle.weekOfYear.end(d);
 --> 'Sun, 24 Mar 2013 23:59:59 GMT'
 
-later.weekOfYear.next(d, 47);
+cronicle.weekOfYear.next(d, 47);
 --> 'Mon, 18 Nov 2013 00:00:00 GMT'
 
-later.weekOfYear.prev(d, 52);
+cronicle.weekOfYear.prev(d, 52);
 --> 'Sun, 30 Dec 2012 23:59:59 GMT'
 ```
 
@@ -602,31 +602,31 @@ Performing months based calculations:
 ```
 var d = new Date('2013-03-22T10:02:05Z');
 
-later.month.name;
+cronicle.month.name;
 --> 'month'
 
-later.month.range;
+cronicle.month.range;
 --> 2629740
 
-later.month.val(d);
+cronicle.month.val(d);
 --> 3
 
-later.month.isValid(d, 3);
+cronicle.month.isValid(d, 3);
 --> true
 
-later.month.extent();
+cronicle.month.extent();
 --> [1, 12]
 
-later.month.start(d);
+cronicle.month.start(d);
 --> 'Fri, 01 Mar 2013 00:00:00 GMT'
 
-later.month.end(d);
+cronicle.month.end(d);
 --> 'Sun, 31 Mar 2013 23:59:59 GMT'
 
-later.month.next(d, 11);
+cronicle.month.next(d, 11);
 --> 'Fri, 01 Nov 2013 00:00:00 GMT'
 
-later.month.prev(d, 2);
+cronicle.month.prev(d, 2);
 --> 'Thu, 28 Feb 2013 23:59:59 GMT'
 ```
 
@@ -643,42 +643,42 @@ Performing years based calculations:
 ```
 var d = new Date('2013-03-22T10:02:05Z');
 
-later.year.name;
+cronicle.year.name;
 --> 'year'
 
-later.year.range;
+cronicle.year.range;
 --> 31556900
 
-later.year.val(d);
+cronicle.year.val(d);
 --> 2013
 
-later.year.isValid(d, 2013);
+cronicle.year.isValid(d, 2013);
 --> true
 
-later.year.extent();
+cronicle.year.extent();
 --> [1970, 2099]
 
-later.year.start(d);
+cronicle.year.start(d);
 --> 'Tue, 01 Jan 2013 00:00:00 GMT'
 
-later.year.end(d);
+cronicle.year.end(d);
 --> 'Tue, 31 Dec 2013 23:59:59 GMT'
 
-later.year.next(d, 2014);
+cronicle.year.next(d, 2014);
 --> 'Wed, 01 Jan 2014 00:00:00 GMT'
 
-later.year.prev(d, 2012);
+cronicle.year.prev(d, 2012);
 --> 'Mon, 31 Dec 2012 23:59:59 GMT'
 ```
 
 ## Writing a custom time period
-Later is fully extensible and it is easy to create your own custom time periods that can be used to define new schedules. To keep things simple, we'll walk through creating a new time period for indicating morning, afternoon, and evening. For our purposes, morning will be before noon and have a value of 0, afternoon will be before 6pm and have a value of 1, and evening will be before midnight and have a value of 2.
+Cronicle is fully extensible and it is easy to create your own custom time periods that can be used to define new schedules. To keep things simple, we'll walk through creating a new time period for indicating morning, afternoon, and evening. For our purposes, morning will be before noon and have a value of 0, afternoon will be before 6pm and have a value of 1, and evening will be before midnight and have a value of 2.
 
 
-The first step is to create a name and id for the modifier and add it to the later namespace.
+The first step is to create a name and id for the modifier and add it to the cronicle namespace.
 
 ```
-later.partOfDay = later.pd = {
+cronicle.partOfDay = cronicle.pd = {
   // interface implementation goes here
 };
 ```
@@ -689,14 +689,14 @@ Next, we need to implement the time period interface. First we will just specify
 
 The range is approximately 6 hours. Though some of our periods are longer and some shorter, we'll use the shortest range which is afternoon at 6 hours.
 
-`range: later.h.range * 6,`
+`range: cronicle.h.range * 6,`
 
 We then implement val to return the appropriate value based on the definition described previously.
 
 ```
 val: function(d) {
-  return later.h.val(d) < 12 ? 0 :
-         later.h.val(d) < 6 ? 1 :
+  return cronicle.h.val(d) < 12 ? 0 :
+         cronicle.h.val(d) < 6 ? 1 :
          2;
 },
 ```
@@ -705,7 +705,7 @@ Then we can use our new val function to implement isValid.
 
 ```
 isValid: function(d, val) {
-  return later.pd.val(d) === val;
+  return cronicle.pd.val(d) === val;
 },
 ```
 
@@ -717,32 +717,32 @@ Next we need to implement start and end based on the current time period. This w
 
 ```
 start: function(d) {
-  var hour = later.pd.val(d) === 0 ? 0 :
-                later.pd.val(d) === 1 ? 12 :
+  var hour = cronicle.pd.val(d) === 0 ? 0 :
+                cronicle.pd.val(d) === 1 ? 12 :
                 6;
 
-  // later.date.next is a helper function for creating the date in UTC or
+  // cronicle.date.next is a helper function for creating the date in UTC or
   // localTime as appropriate
-  return later.date.next(
-    later.Y.val(d),
-    later.M.val(d),
-    later.D.val(d),
+  return cronicle.date.next(
+    cronicle.Y.val(d),
+    cronicle.M.val(d),
+    cronicle.D.val(d),
     hour
   );
 },
 
 end: function(d) {
-  var hour = later.pd.val(d) === 0 ? 11 :
-                later.pd.val(d) === 1 ? 5 :
+  var hour = cronicle.pd.val(d) === 0 ? 11 :
+                cronicle.pd.val(d) === 1 ? 5 :
                 23;
 
-  // later.date.prev is a helper function for creating the date in UTC or
+  // cronicle.date.prev is a helper function for creating the date in UTC or
   // localTime as appropriate, and automatically adjusts the date to be at
   // the last second of the specified time
-  return later.date.prev(
-    later.Y.val(d),
-    later.M.val(d),
-    later.D.val(d),
+  return cronicle.date.prev(
+    cronicle.Y.val(d),
+    cronicle.M.val(d),
+    cronicle.D.val(d),
     hour
   );
 },
@@ -754,11 +754,11 @@ Finally, we need to implement next and prev so that you can move to different pa
 next: function(d, val) {
   var hour = val === 0 ? 0 : val === 1 ? 12 : 18;
 
-  return later.date.next(
-    later.Y.val(d),
-    later.M.val(d),
+  return cronicle.date.next(
+    cronicle.Y.val(d),
+    cronicle.M.val(d),
     // increment the day if we already passed the desired time period
-    later.D.val(d) + (hour < later.h.val(d) ? 1 : 0),
+    cronicle.D.val(d) + (hour < cronicle.h.val(d) ? 1 : 0),
     hour
   );
 },
@@ -766,60 +766,60 @@ next: function(d, val) {
 prev: function(d, val) {
   var hour = val === 0 ? 11 : val === 1 ? 5 : 23;
 
-  return later.date.prev(
-    later.Y.val(d),
-    later.M.val(d),
+  return cronicle.date.prev(
+    cronicle.Y.val(d),
+    cronicle.M.val(d),
     // decrement the day if we already passed the desired time period
-    later.D.val(d) + (hour > later.h.val(d) ? -1 : 0),
+    cronicle.D.val(d) + (hour > cronicle.h.val(d) ? -1 : 0),
     hour
   );
 }
 ```
 
 ### Full implementation
-Here is the code for the completed example. To use the time period, just add this code after including Later into your project and before you use it in any schedules.
+Here is the code for the completed example. To use the time period, just add this code after including Cronicle into your project and before you use it in any schedules.
 
 ```
-later.partOfDay = later.pd = {
+cronicle.partOfDay = cronicle.pd = {
 
   name: 'part of day',
 
-  range: later.h.range * 6,
+  range: cronicle.h.range * 6,
 
   val: function(d) {
-    return later.h.val(d) < 12 ? 0 :
-           later.h.val(d) < 18 ? 1 :
+    return cronicle.h.val(d) < 12 ? 0 :
+           cronicle.h.val(d) < 18 ? 1 :
            2;
   },
 
   isValid: function(d, val) {
-    return later.pd.val(d) === val;
+    return cronicle.pd.val(d) === val;
   },
 
   extent: function(d) { return [0, 2]; },
 
   start: function(d) {
-    var hour = later.pd.val(d) === 0 ? 0 :
-                  later.pd.val(d) === 1 ? 12 :
+    var hour = cronicle.pd.val(d) === 0 ? 0 :
+                  cronicle.pd.val(d) === 1 ? 12 :
                   18;
 
-    return later.date.next(
-      later.Y.val(d),
-      later.M.val(d),
-      later.D.val(d),
+    return cronicle.date.next(
+      cronicle.Y.val(d),
+      cronicle.M.val(d),
+      cronicle.D.val(d),
       hour
     );
   },
 
   end: function(d) {
-    var hour = later.pd.val(d) === 0 ? 11 :
-                  later.pd.val(d) === 1 ? 5 :
+    var hour = cronicle.pd.val(d) === 0 ? 11 :
+                  cronicle.pd.val(d) === 1 ? 5 :
                   23;
 
-    return later.date.prev(
-      later.Y.val(d),
-      later.M.val(d),
-      later.D.val(d),
+    return cronicle.date.prev(
+      cronicle.Y.val(d),
+      cronicle.M.val(d),
+      cronicle.D.val(d),
       hour
     );
   },
@@ -827,11 +827,11 @@ later.partOfDay = later.pd = {
   next: function(d, val) {
     var hour = val === 0 ? 0 : val === 1 ? 12 : 18;
 
-    return later.date.next(
-      later.Y.val(d),
-      later.M.val(d),
+    return cronicle.date.next(
+      cronicle.Y.val(d),
+      cronicle.M.val(d),
       // increment the day if we already passed the desired time period
-      later.D.val(d) + (hour < later.h.val(d) ? 1 : 0),
+      cronicle.D.val(d) + (hour < cronicle.h.val(d) ? 1 : 0),
       hour
     );
   },
@@ -839,11 +839,11 @@ later.partOfDay = later.pd = {
   prev: function(d, val) {
     var hour = val === 0 ? 11 : val === 1 ? 5 : 23;
 
-    return later.date.prev(
-      later.Y.val(d),
-      later.M.val(d),
+    return cronicle.date.prev(
+      cronicle.Y.val(d),
+      cronicle.M.val(d),
       // decrement the day if we already passed the desired time period
-      later.D.val(d) + (hour > later.h.val(d) ? -1 : 0),
+      cronicle.D.val(d) + (hour > cronicle.h.val(d) ? -1 : 0),
       hour
     );
   }
@@ -855,15 +855,15 @@ Using the custom time period is exactly the same as using a built-in time period
 
 ```
 // use our new time period to specify every 15 mins at night
-var sched = later.parse.recur().every(15).minute().on(2).customPeriod('pd'),
-    next = later.schedule(sched).next(1, new Date(2013, 3, 21));
+var sched = cronicle.parse.recur().every(15).minute().on(2).customPeriod('pd'),
+    next = cronicle.schedule(sched).next(1, new Date(2013, 3, 21));
 
 console.log(next.toUTCString());
 --> Sun, 21 Apr 2013 18:00:00 GMT
 ```
 
 ## Modifiers
-With Later, not only can you write your own custom time periods, you can also write custom modifiers that can change the behavior of existing time periods. The modifiers sit in between the scheduling engine and the time period allowing you to intercept and modify the results that are returned by the time period.
+With Cronicle, not only can you write your own custom time periods, you can also write custom modifiers that can change the behavior of existing time periods. The modifiers sit in between the scheduling engine and the time period allowing you to intercept and modify the results that are returned by the time period.
 
 
 Modifies are specified by attaching `_(modifier-id)` to the time period id that you want to modify. The same time period can be used with different modifiers within the same schedule.
@@ -897,7 +897,7 @@ Custom modifiers are very similar to custom time periods and share the same inte
 The first step is to create a name and id for the modifier and add it to the modifier namespace. Modifiers take the time period that is being modified along with the specified values as arguments.
 
 ```
-later.modifier.month = later.modifier.m = function(period, values) {
+cronicle.modifier.month = cronicle.modifier.m = function(period, values) {
   if(period.name !== 'month') {
     throw new Error('Month modifier only works with months!');
   }
@@ -943,10 +943,10 @@ prev: function(d, val) { return period.prev(d, val+1); }
 ```
 
 ### Full implementation
-Here is the code for the completed example. To use the modifier, just add this code after including Later into your project and before you use it in any schedules.
+Here is the code for the completed example. To use the modifier, just add this code after including Cronicle into your project and before you use it in any schedules.
 
 ```
-later.modifier.month = later.modifier.m = function(period, values) {
+cronicle.modifier.month = cronicle.modifier.m = function(period, values) {
   if(period.name !== 'month') {
     throw new Error('Month modifier only works with months!');
   }
@@ -972,13 +972,13 @@ Using the custom modifier is exactly the same as using a built-in modifier.
 // wihtout our modifier, 2 means February
 var sched1 = {schedules: [{M: [2]}]};
 
-later.schedule(sched1).next(1, new Date(2013, 3, 21));
+cronicle.schedule(sched1).next(1, new Date(2013, 3, 21));
 --> Sat, 01 Feb 2014 00:00:00 GMT
 
 // use our new modifier so that 2 now means March
-var sched = later.parse.recur().customModifier('m', 2).month();
+var sched = cronicle.parse.recur().customModifier('m', 2).month();
 
-next = later.schedule(sched2).next(1, new Date(2013, 3, 21));
+next = cronicle.schedule(sched2).next(1, new Date(2013, 3, 21));
 --> Sat, 01 Mar 2014 00:00:00 GMT
 ```
 
@@ -988,29 +988,29 @@ Once a schedule has been defined, it can be used to calculate future and past oc
 In order to improve performance, schedules are first compiled prior to occurrences being calculated. The compiled version of the schedule can be reused to find additional occurrences as needed.
 
 
-To compile a schedule, pass the schedule definition to `later.schedule`.
+To compile a schedule, pass the schedule definition to `cronicle.schedule`.
 
-`var sched = later.schedule(schedule)`
+`var sched = cronicle.schedule(schedule)`
 
 **Tip** All schedule definitions are timezone agnostic. When you need to calculate occurrences, you can decide to perform the calculation using local time or UTC.
 
 ```
-// set later to use UTC time (the default)
-later.date.UTC();
+// set cronicle to use UTC time (the default)
+cronicle.date.UTC();
 
-// set later to use local time
-later.date.localTime();
+// set cronicle to use local time
+cronicle.date.localTime();
 ```
 
 ## isValid(date)
 Returns true if the `date` passed in is a valid occurrence of the schedule, false otherwise.
 
-`var valid = later.schedule(schedule).isValid(date)`
+`var valid = cronicle.schedule(schedule).isValid(date)`
 
 ### Examples
 
 ```
-var sched = later.schedule(later.parse.recur().on(1,2,3).minute());
+var sched = cronicle.schedule(cronicle.parse.recur().on(1,2,3).minute());
 
 sched.isValid(new Date('2013-03-22T10:02:00Z'));
 --> true
@@ -1026,26 +1026,26 @@ sched.isValid(new Date('2013-03-22T10:02:05Z'));
 Instances are individual dates that meet all of the constraints that are imposed by the schedule. Instances can be calculated both forwards and backwards, in any quantity, and optionally between a start and end date. When calculating multiple instances, the minimum time between instances is based on the smallest ranged time period.
 
 
-**later.schedule(*schedule*).all(*start, end*)**
+**cronicle.schedule(*schedule*).all(*start, end*)**
 Calculates *all* occurrences of `schedule` starting from the `start` date and ending before the `end` date. If an end date is not specified, the maximum results returned is 1000.
 
-`later.schedule({schedules: [{m: [5]}]}).all(startDate, endDate)`
+`cronicle.schedule({schedules: [{m: [5]}]}).all(startDate, endDate)`
 
-**later.schedule(*schedule*).next(*count, start, end*)**
+**cronicle.schedule(*schedule*).next(*count, start, end*)**
 Calculates the next `count` occurrences of `schedule`, optionally starting from the `start` date and ending before the `end` date.
 
-`later.schedule({schedules: [{m: [5]}]}).next(2)`
+`cronicle.schedule({schedules: [{m: [5]}]}).next(2)`
 
 
-**later.schedule(*schedule*).prev(*count, start, end*)**
+**cronicle.schedule(*schedule*).prev(*count, start, end*)**
 Calculates the previous `count` occurrences of `schedule`, optionally starting from the `start` date and ending before the `end` date. When using previous, the `start` date must be greater than the `end` date.
 
-`later.schedule({schedules: [{m: [5]}]}).prev(2)`
+`cronicle.schedule({schedules: [{m: [5]}]}).prev(2)`
 
 ### Examples
 ```
 // sched for minute equal to 1,2, or 3
-var sched = later.schedule(later.parse.recur().on(1,2,3).minute()),
+var sched = cronicle.schedule(cronicle.parse.recur().on(1,2,3).minute()),
     start = new Date('2013-05-22T10:22:00Z');
 
 // get the next instance
@@ -1071,20 +1071,20 @@ Ranges combine consecutively valid instances into a single start and end block o
 Ranges are useful when scheduling blocks of time such as a meeting or activity. The schedule definition defines the start and end time of the activity and then ranges are used to find their occurrences.
 
 
-**later.schedule(*schedule*).nextRange(*count, start, end*)**
+**cronicle.schedule(*schedule*).nextRange(*count, start, end*)**
 Calculates the next count ranges of schedule, optionally starting from the start date and ending before the end date.
 
-`later.schedule({schedules: [{m:[5,6,7]}]}).nextRange(2)`
+`cronicle.schedule({schedules: [{m:[5,6,7]}]}).nextRange(2)`
 
-**later.schedule(*schedule*).prevRange(*count, start, end*)**
+**cronicle.schedule(*schedule*).prevRange(*count, start, end*)**
 Calculates the previous count ranges of schedule, optionally starting from the start date and ending before the end date.
 
-`later.schedule({schedules: [{m:[5,6,7]}]}).prevRange(2)`
+`cronicle.schedule({schedules: [{m:[5,6,7]}]}).prevRange(2)`
 
 ### Examples
 ```
 // sched for minute equal to 1,2, or 3
-var sched = later.schedule(later.parse.recur().on(1,2,3).minute()),
+var sched = cronicle.schedule(cronicle.parse.recur().on(1,2,3).minute()),
     start = new Date('2013-05-22T10:22:00Z');
 
 // get the next range
