@@ -1,5 +1,13 @@
 # cronicle
 
+Shamelessly based on a fork of [later.js](https://github.com/kirkins/later).
+
+* Added ability to get *all* occurrences of a schedule between a start and end time
+* Removed the parsers in favor of just dealing with schedule definitions directly
+* Removed `setTimeout` and `setInterval` implementations
+* Removed bower and Makefile
+* WIP to update syntax to more modern ES6+
+
 ## Installation
 
 `$ npm install cronicle`
