@@ -1,12 +1,12 @@
 /* eslint-env mocha */
-var later = require('../../index')
+var cronicle = require('../../index')
 
-var schedule = later.schedule
+var schedule = cronicle.schedule
 
 var should = require('should')
 
 describe('Schedule', function () {
-  later.date.UTC()
+  cronicle.date.UTC()
 
   describe('isValid', function () {
     var d = new Date('2013-03-21T00:00:05Z')
@@ -56,14 +56,14 @@ describe('Schedule', function () {
       ])
     })
 
-    it('should return later.NEVER if no next valid date exists', function () {
+    it('should return cronicle.NEVER if no next valid date exists', function () {
       var s = { schedules: [{ Y: [2012] }] }
-      should.equal(schedule(s).next(1, d), later.NEVER)
+      should.equal(schedule(s).next(1, d), cronicle.NEVER)
     })
 
-    it('should return later.NEVER if end date precludes a valid schedule', function () {
+    it('should return cronicle.NEVER if end date precludes a valid schedule', function () {
       var s = { schedules: [{ Y: [2017] }] }
-      should.equal(schedule(s).next(1, d, e), later.NEVER)
+      should.equal(schedule(s).next(1, d, e), cronicle.NEVER)
     })
   })
 
@@ -96,14 +96,14 @@ describe('Schedule', function () {
       ])
     })
 
-    it('should return later.NEVER if no prev valid date exists', function () {
+    it('should return cronicle.NEVER if no prev valid date exists', function () {
       var s = { schedules: [{ Y: [2017] }] }
-      should.equal(schedule(s).prev(1, d), later.NEVER)
+      should.equal(schedule(s).prev(1, d), cronicle.NEVER)
     })
 
-    it('should return later.NEVER if end date precludes a valid schedule', function () {
+    it('should return cronicle.NEVER if end date precludes a valid schedule', function () {
       var s = { schedules: [{ Y: [2009] }] }
-      should.equal(schedule(s).prev(1, d, e), later.NEVER)
+      should.equal(schedule(s).prev(1, d, e), cronicle.NEVER)
     })
   })
 
@@ -288,24 +288,24 @@ describe('Schedule', function () {
       ])
     })
 
-    it('should return later.NEVER if no valid date exists', function () {
+    it('should return cronicle.NEVER if no valid date exists', function () {
       const startDate = new Date('2018-10-01T00:00:00Z')
       const endDate = new Date('2018-11-01T00:00:00Z')
       const s = { schedules: [{ Y: [2012] }] }
-      should.equal(schedule(s).all(startDate, endDate), later.NEVER)
+      should.equal(schedule(s).all(startDate, endDate), cronicle.NEVER)
     })
 
-    it('should return later.NEVER if no valid date exists with only startDate passed', function () {
+    it('should return cronicle.NEVER if no valid date exists with only startDate passed', function () {
       const startDate = new Date('2018-10-01T00:00:00Z')
       const s = { schedules: [{ Y: [2012] }] }
-      should.equal(schedule(s).all(startDate), later.NEVER)
+      should.equal(schedule(s).all(startDate), cronicle.NEVER)
     })
 
-    it('should return later.NEVER if end date precludes a valid schedule', function () {
+    it('should return cronicle.NEVER if end date precludes a valid schedule', function () {
       const startDate = new Date('2013-03-21T00:00:05Z')
       const endDate = new Date('2016-01-01T00:00:05Z')
       const s = { schedules: [{ Y: [2017] }] }
-      should.equal(schedule(s).all(startDate, endDate), later.NEVER)
+      should.equal(schedule(s).all(startDate, endDate), cronicle.NEVER)
     })
 
     it('should return all valid dates if one exists with exceptions', function () {

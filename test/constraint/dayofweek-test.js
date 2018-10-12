@@ -1,9 +1,9 @@
 /* eslint-env mocha */
-var later = require('../../index')
+var cronicle = require('../../index')
 
-var runner = require('./runner')(later, later.dayOfWeek)
+var runner = require('./runner')(cronicle, cronicle.dayOfWeek)
 
-describe('Later.dayOfWeek', function () {
+describe('cronicle.dayOfWeek', function () {
   var tests = [
     {
       // first second of year

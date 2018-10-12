@@ -1,11 +1,11 @@
 /* eslint-env mocha */
-var later = require('../../index')
+var cronicle = require('../../index')
 
 var should = require('should')
 
-describe('Later.array.prev', function () {
+describe('cronicle.array.prev', function () {
   it('should exist', function () {
-    should.exist(later.array.prev)
+    should.exist(cronicle.array.prev)
   })
 
   it('should return the prev highest value', function () {
@@ -17,7 +17,7 @@ describe('Later.array.prev', function () {
 
     var expected = 2
 
-    var actual = later.array.prev(cur, arr, extent)
+    var actual = cronicle.array.prev(cur, arr, extent)
 
     actual.should.eql(expected)
   })
@@ -31,7 +31,7 @@ describe('Later.array.prev', function () {
 
     var expected = 1
 
-    var actual = later.array.prev(cur, arr, extent)
+    var actual = cronicle.array.prev(cur, arr, extent)
 
     actual.should.eql(expected)
   })
@@ -45,7 +45,7 @@ describe('Later.array.prev', function () {
 
     var expected = 0
 
-    var actual = later.array.prev(cur, arr, extent)
+    var actual = cronicle.array.prev(cur, arr, extent)
 
     actual.should.eql(expected)
   })
@@ -59,7 +59,7 @@ describe('Later.array.prev', function () {
 
     var expected = 5
 
-    var actual = later.array.prev(cur, arr, extent)
+    var actual = cronicle.array.prev(cur, arr, extent)
 
     actual.should.eql(expected)
   })
@@ -73,7 +73,7 @@ describe('Later.array.prev', function () {
 
     var expected = 5
 
-    var actual = later.array.prev(cur, arr, extent)
+    var actual = cronicle.array.prev(cur, arr, extent)
 
     actual.should.eql(expected)
   })
@@ -87,7 +87,7 @@ describe('Later.array.prev', function () {
 
     var expected = 0
 
-    var actual = later.array.prev(cur, arr, extent)
+    var actual = cronicle.array.prev(cur, arr, extent)
 
     actual.should.eql(expected)
   })
@@ -101,7 +101,7 @@ describe('Later.array.prev', function () {
 
     var expected = 4
 
-    var actual = later.array.prev(cur, arr, extent)
+    var actual = cronicle.array.prev(cur, arr, extent)
 
     actual.should.eql(expected)
   })
@@ -115,7 +115,7 @@ describe('Later.array.prev', function () {
 
     var expected = 0
 
-    var actual = later.array.prev(cur, arr, extent)
+    var actual = cronicle.array.prev(cur, arr, extent)
 
     actual.should.eql(expected)
   })

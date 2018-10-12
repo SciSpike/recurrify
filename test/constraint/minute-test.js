@@ -1,9 +1,9 @@
 /* eslint-env mocha */
-var later = require('../../index')
+var cronicle = require('../../index')
 
-var runner = require('./runner')(later, later.minute)
+var runner = require('./runner')(cronicle, cronicle.minute)
 
-describe('Later.minute', function () {
+describe('cronicle.minute', function () {
   var tests = [
     {
       // first second of year

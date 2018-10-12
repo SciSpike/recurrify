@@ -1,11 +1,11 @@
 /* eslint-env mocha */
-var later = require('../../index')
+var cronicle = require('../../index')
 
 var should = require('should')
 
-describe('Later.array.prevInvalid', function () {
+describe('cronicle.array.prevInvalid', function () {
   it('should exist', function () {
-    should.exist(later.array.prevInvalid)
+    should.exist(cronicle.array.prevInvalid)
   })
 
   it('should return the previous invalid value', function () {
@@ -17,7 +17,7 @@ describe('Later.array.prevInvalid', function () {
 
     var expected = 4
 
-    var actual = later.array.prevInvalid(cur, arr, extent)
+    var actual = cronicle.array.prevInvalid(cur, arr, extent)
 
     actual.should.eql(expected)
   })
@@ -31,7 +31,7 @@ describe('Later.array.prevInvalid', function () {
 
     var expected = 1
 
-    var actual = later.array.prevInvalid(cur, arr, extent)
+    var actual = cronicle.array.prevInvalid(cur, arr, extent)
 
     actual.should.eql(expected)
   })
@@ -45,7 +45,7 @@ describe('Later.array.prevInvalid', function () {
 
     var expected = 30
 
-    var actual = later.array.prevInvalid(cur, arr, extent)
+    var actual = cronicle.array.prevInvalid(cur, arr, extent)
 
     actual.should.eql(expected)
   })
@@ -59,7 +59,7 @@ describe('Later.array.prevInvalid', function () {
 
     var expected = 9
 
-    var actual = later.array.prevInvalid(cur, arr, extent)
+    var actual = cronicle.array.prevInvalid(cur, arr, extent)
 
     actual.should.eql(expected)
   })
@@ -73,7 +73,7 @@ describe('Later.array.prevInvalid', function () {
 
     var expected = 4
 
-    var actual = later.array.prevInvalid(cur, arr, extent)
+    var actual = cronicle.array.prevInvalid(cur, arr, extent)
 
     actual.should.eql(expected)
   })
@@ -85,6 +85,6 @@ describe('Later.array.prevInvalid', function () {
 
     var cur = 4
 
-    should.not.exist(later.array.prevInvalid(cur, arr, extent))
+    should.not.exist(cronicle.array.prevInvalid(cur, arr, extent))
   })
 })

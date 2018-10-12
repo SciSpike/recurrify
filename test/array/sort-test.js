@@ -1,11 +1,11 @@
 /* eslint-env mocha */
-var later = require('../../index')
+var cronicle = require('../../index')
 
 var should = require('should')
 
-describe('Later.array.sort', function () {
+describe('cronicle.array.sort', function () {
   it('should exist', function () {
-    should.exist(later.array.sort)
+    should.exist(cronicle.array.sort)
   })
 
   it('should not modify arrays that are already sorted', function () {
@@ -13,7 +13,7 @@ describe('Later.array.sort', function () {
 
     var expected = [1, 2, 3, 4, 5]
 
-    later.array.sort(arr)
+    cronicle.array.sort(arr)
     arr.should.eql(expected)
   })
 
@@ -22,7 +22,7 @@ describe('Later.array.sort', function () {
 
     var expected = [2, 3, 4, 6, 9]
 
-    later.array.sort(arr)
+    cronicle.array.sort(arr)
     arr.should.eql(expected)
   })
 
@@ -31,7 +31,7 @@ describe('Later.array.sort', function () {
 
     var expected = [0, 2, 3, 4, 6, 9]
 
-    later.array.sort(arr)
+    cronicle.array.sort(arr)
     arr.should.eql(expected)
   })
 
@@ -40,7 +40,7 @@ describe('Later.array.sort', function () {
 
     var expected = [2, 3, 4, 6, 9, 0]
 
-    later.array.sort(arr, true)
+    cronicle.array.sort(arr, true)
     arr.should.eql(expected)
   })
 })

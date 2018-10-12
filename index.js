@@ -1,3 +1,3 @@
 'use strict'
 
-module.exports = require('./lib/later')
+module.exports = require('./lib/cronicle')
