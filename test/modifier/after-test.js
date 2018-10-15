@@ -202,7 +202,7 @@ describe('Modifier After', function () {
     })
   })
 
-  describe('compiled minute schedule', function () {
+  describe('compiled minute recurrence', function () {
     var c = cronicle.compile({ m_a: [30] })
 
     it('should tick to next consecutive minutes', function () {
@@ -283,7 +283,7 @@ describe('Modifier After', function () {
     })
   })
 
-  describe('compiled time schedule', function () {
+  describe('compiled time recurrence', function () {
     var c = cronicle.compile({ t_a: [11400] })
 
     it('should tick to next consecutive minutes', function () {

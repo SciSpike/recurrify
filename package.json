@@ -4,7 +4,7 @@
   "description": "TODO",
   "main": "index.js",
   "scripts": {
-    "test": "npm-run-all lint unit",
+    "test": "npm-run-all unit lint",
     "cov": "open ./coverage/lcov-report/index.html",
     "u": "mocha test/**/*-test.js",
     "lint": "standard --verbose | snazzy",

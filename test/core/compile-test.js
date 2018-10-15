@@ -16,7 +16,7 @@ describe('Compile', function () {
         cronicle.compile({ M: [3], Y_a: [2012] }).start('next', d).should.eql(new Date('2013-03-01T00:00:00Z'))
       })
 
-      it('should return next valid occurrence if invalid', function () {
+      it('should return next valid time slot if invalid', function () {
         cronicle.date.UTC()
         cronicle.compile({ Y: [2013], M: [4, 5] }).start('next', d).should.eql(new Date('2013-04-01T00:00:00Z'))
       })
@@ -33,7 +33,7 @@ describe('Compile', function () {
         cronicle.compile({ Y: [2013], s: [5] }).start('prev', d).should.eql(d)
       })
 
-      it('should return previous valid occurrence if invalid', function () {
+      it('should return previous valid time slot if invalid', function () {
         cronicle.date.UTC()
         cronicle.compile({ Y: [2012] }).start('prev', d).should.eql(new Date('2012-12-31T23:59:59Z'))
       })
@@ -43,12 +43,12 @@ describe('Compile', function () {
   describe('end', function () {
     var d = new Date('2013-03-21T00:00:05Z')
 
-    it('should return next invalid occurrence if valid', function () {
+    it('should return next invalid time slot if valid', function () {
       cronicle.date.UTC()
       cronicle.compile({ Y: [2013, 2014] }).end('next', d).should.eql(new Date('2015-01-01T00:00:00Z'))
     })
 
-    it('should return prev invalid occurrence if valid', function () {
+    it('should return prev invalid time slot if valid', function () {
       cronicle.date.UTC()
       cronicle.compile({ Y: [2013, 2014] }).end('prev', d).should.eql(new Date('2012-12-31T23:59:59Z'))
     })
