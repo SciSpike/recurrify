@@ -2,8 +2,8 @@
 
 Shamelessly based on a fork of [later.js](https://github.com/kirkins/later).
 
-* Added ability to get *all* occurrences of a schedule between a start and end time
-* Removed the parsers in favor of just dealing with schedule definitions directly
+* Added ability to get *all* time slots of a recurrence between a start and end time
+* Removed the parsers in favor of just dealing with recurrence definitions directly
 * Removed `setTimeout` and `setInterval` implementations
 * Removed bower and Makefile
 * WIP to update syntax to more modern ES6+
@@ -21,9 +21,9 @@ const startDate = new Date('2018-10-01T13:00:00Z')
 const endDate = new Date('2018-10-01T15:00:00Z')
 
 // every 5 minutes
-const sched = { 'schedules': [{ 'm': [0, 5, 10, 15, 20, 25, 30, 35, 40, 45, 50, 55] }] }
-const occurrences = cronicle.schedule(sched).all(startDate, endDate)
-console.log(occurrences)
+const sched = { 'recurrences': [{ 'm': [0, 5, 10, 15, 20, 25, 30, 35, 40, 45, 50, 55] }] }
+const timeSlots = cronicle.recurrence(sched).all(startDate, endDate)
+console.log(timeSlots)
 ```
 
 ### Result
@@ -60,29 +60,29 @@ $ node example.js
 
 `$ npm test`
 
-## Schedules
-Schedules in Cronicle are json objects that define a set of time periods along with the values that should be considered valid for that time period. The combination of a time period with their valid values is called a *constraint*. Cronicle then takes all of the constraints that have been defined and finds dates that match all of them.
+## Recurrences
+Recurrences in Cronicle are json objects that define a set of time periods along with the values that should be considered valid for that time period. The combination of a time period with their valid values is called a *constraint*. Cronicle then takes all of the constraints that have been defined and finds dates that match all of them.
 
-Since Cronicle schedules are json objects, they can easily be serialized and stored in caches and databases as needed. They are also completely deterministic which means a schedule will always produce exactly the same valid occurrences. Therefore, occurrences never need to be stored as they can always be recalculated from the schedule definition.
+Since Cronicle recurrences are json objects, they can easily be serialized and stored in caches and databases as needed. They are also completely deterministic which means a recurrence will always produce exactly the same valid time slots. Therefore, time slots never need to be stored as they can always be recalculated from the recurrence definition.
 
-## Basic schedules
-A basic schedule is a set of time periods along with their valid values. A date is only considered valid if it meets all of the constraints within a basic schedule. A basic schedule can include as many time periods (with or without modifiers) as needed, in any order.
+## Basic recurrences
+A basic recurrence is a set of time periods along with their valid values. A date is only considered valid if it meets all of the constraints within a basic recurrence. A basic recurrence can include as many time periods (with or without modifiers) as needed, in any order.
 
 ```
-// a basic schedule that is valid every day at 10:15am and 10:45am
+// a basic recurrence that is valid every day at 10:15am and 10:45am
 const basic = {h: [10], m: [15,45]}
 ```
 
-Here we can see a schedule is made up of objects with properties that correspond to the various time periods. In this case `h` is the hour time period and `m` is the minute time period. The values to consider valid are always stored in an array as the value of the property.
+Here we can see a recurrence is made up of objects with properties that correspond to the various time periods. In this case `h` is the hour time period and `m` is the minute time period. The values to consider valid are always stored in an array as the value of the property.
 
 
-**Note:** Basic schedules are only valid as part of a complete schedule definition.
+**Note:** Basic recurrences are only valid as part of a complete recurrence definition.
 
-## Composite schedules
-Multiple basic schedules can be combined into a single composite schedule by placing them into an array. A date is considered valid if any of the basic schedules are valid (basically an OR of all of the basic schedules). A composite schedule can contain as many basic schedules as needed.
+## Composite recurrences
+Multiple basic recurrences can be combined into a single composite recurrence by placing them into an array. A date is considered valid if any of the basic recurrences are valid (basically an OR of all of the basic recurrences). A composite recurrence can contain as many basic recurrences as needed.
 
 ```
-// a composite schedule that is valid every day at 10:15am and 10:45am
+// a composite recurrence that is valid every day at 10:15am and 10:45am
 // and every day at 5:30pm
 const composite = [
   {h: [10], m: [15,45]},
@@ -91,13 +91,13 @@ const composite = [
 
 ```
 
-**Note:** Composite schedules are only valid as part of a complete schedule definition.
+**Note:** Composite recurrences are only valid as part of a complete recurrence definition.
 
-## Exception schedules
-An exception schedule is a basic or composite schedule that defines when a schedule should be considered invalid. A date is considered invalid if any of the basic schedules within an exception schedule are valid.
+## Exception recurrences
+An exception recurrence is a basic or composite recurrence that defines when a recurrence should be considered invalid. A date is considered invalid if any of the basic recurrences within an exception recurrence are valid.
 
 ```
-// an exception schedule that makes any date in March as
+// an exception recurrence that makes any date in March as
 // well as any Monday of any month invalid
 const exception = [
   {M: [3]},
@@ -105,27 +105,27 @@ const exception = [
 ]
 ```
 
-**Note:** Exception schedules are only valid as part of a complete schedule definition.
+**Note:** Exception recurrences are only valid as part of a complete recurrence definition.
 
 ## Complete definition
-A complete definition is a json object that at a minimum contains a `schedules` property that defines a composite schedule with at least one basic schedule. Optionally, the definition can also include an `exceptions` property that defines a composite exception schedule.
+A complete definition is a json object that at a minimum contains a `recurrences` property that defines a composite recurrence with at least one basic recurrence. Optionally, the definition can also include an `exceptions` property that defines a composite exception recurrence.
 
 
-A valid schedule that fires every 10 minutes. The composite schedule is always placed in an object under a property named `schedules`. Even if you only have a basic schedule, the `schedules` property must be an array.
+A valid recurrence that fires every 10 minutes. The composite recurrence is always placed in an object under a property named `recurrences`. Even if you only have a basic recurrence, the `recurrences` property must be an array.
 
 ```
-const schedule = {
-  schedules: [
+const recurrence = {
+  recurrences: [
     {m: [0,10,20,30,40,50]}
   ]
 }
 ```
 
-A valid schedule definition that includes exceptions with modifiers. Here we see the composite exception schedule is always placed in an object under a property named `exceptions`. Even if you only have a basic exception schedule, the `exceptions` property must be an array.
+A valid recurrence definition that includes exceptions with modifiers. Here we see the composite exception recurrence is always placed in an object under a property named `exceptions`. Even if you only have a basic exception recurrence, the `exceptions` property must be an array.
 
 ```
-const schedule = {
-  schedules: [
+const recurrence = {
+  recurrences: [
     {h: [10], m: [15,45]},
     {h: [17], m: [30]}
   ],
@@ -137,20 +137,20 @@ const schedule = {
 ```
 
 ## Performance considerations
-While Cronicle has been designed to efficiently calculate occurrences for all types and complexities of schedules, there are a few things to keep in mind for applications that have particularly high performance requirements.
+While Cronicle has been designed to efficiently calculate time slots for all types and complexities of recurrences, there are a few things to keep in mind for applications that have particularly high performance requirements.
 
 * Basic time periods perform the best. These include years, months, days, hours, minutes, and seconds. Calculating ISO week of year is particularly expensive.
-* Schedules without exceptions perform better than those with exceptions. Defining your schedule without the need for exceptions will improve performance.
+* Recurrences without exceptions perform better than those with exceptions. Defining your recurrence without the need for exceptions will improve performance.
 * Use the `time` time period instead of specifying hours and minutes seperately when possible. Reducing the number of constraints will generally improve performance.
 * Using `after` and `before` modifiers to eliminate the need for specifying a lot of valid values will improve performance, especially when calculating ranges.
 
 
 ## Time periods
-Time periods are the crux of the Cronicle library and are used to define new schedules. Cronicle comes with a large assortment of time periods and is also fully extensible making it easy to create custom time periods.
+Time periods are the crux of the Cronicle library and are used to define new recurrences. Cronicle comes with a large assortment of time periods and is also fully extensible making it easy to create custom time periods.
 
-While time periods are primarily used by Cronicle to define schedules and calculate occurrences, they are also useful for performing time based calculations. Calculating values such as ISO week number, moving between days of the year, or figuring out how many days are in a month are all possible using the time period interface.
+While time periods are primarily used by Cronicle to define recurrences and calculate time slots, they are also useful for performing time based calculations. Calculating values such as ISO week number, moving between days of the year, or figuring out how many days are in a month are all possible using the time period interface.
 
-If you don't see the time period that you need for your schedule, Cronicle is fully extensible and it is easy to write your own. See the custom time period at the bottom of this page for an example.
+If you don't see the time period that you need for your recurrence, Cronicle is fully extensible and it is easy to write your own. See the custom time period at the bottom of this page for an example.
 
 ## Interface
 All time periods implement the same public interface for interacting with them:
@@ -168,7 +168,7 @@ The value of this time period for the date specified.
 True if the specified value is valid for the specified date, false otherwise.
 
 **extent(*date*)**
-The minimum and maximum valid values for the time period for the specified date. If the minimum value is not 0, 0 can be specified in schedules to indicate the maximum value. This makes working with non-constant extents (like days in a month) easier.
+The minimum and maximum valid values for the time period for the specified date. If the minimum value is not 0, 0 can be specified in recurrences to indicate the maximum value. This makes working with non-constant extents (like days in a month) easier.
 
 **start(*date*)**
 The first second in which the value is the same as the value of the specified date. For example, the start of an hour would be the hour with 0 minutes and 0 seconds.
@@ -187,9 +187,9 @@ Returns the previous date where the value is the value specified. Sets the value
 Seconds in a minute, from 0 to 59.
 
 
-Using seconds in a schedule:
+Using seconds in a recurrence:
 
-`const sched = {schedules: [{s: [0, 15, 30, 45]}]}`
+`const sched = {recurrences: [{s: [0, 15, 30, 45]}]}`
 
 Performing seconds based calculations:
 
@@ -228,9 +228,9 @@ cronicle.second.prev(d, 27);
 Minutes in an hour, from 0 to 59.
 
 
-Using minutes in a schedule:
+Using minutes in a recurrence:
 
-`const sched = {schedules: [{m: [0, 15, 30, 45]}]}`
+`const sched = {recurrences: [{m: [0, 15, 30, 45]}]}`
 
 Performing minutes based calculations:
 
@@ -269,9 +269,9 @@ cronicle.minute.prev(d, 27);
 Hours in a day, from 0 to 23.
 
 
-Using hours in a schedule:
+Using hours in a recurrence:
 
-`const sched = {schedules: [{h: [0, 5, 12]}]}`
+`const sched = {recurrences: [{h: [0, 5, 12]}]}`
 
 Performing hours based calculations:
 
@@ -310,9 +310,9 @@ cronicle.hour.prev(d, 21);
 Time of day, represented as seconds since midnight. From 0 to 86399.
 
 
-Using time in a schedule:
+Using time in a recurrence:
 
-`const sched = {schedules: [{t: [6500]}]}`
+`const sched = {recurrences: [{t: [6500]}]}`
 
 Performing time based calculations:
 
@@ -351,9 +351,9 @@ cronicle.time.prev(d, 60);
 Days of a month, from 1 to max days in month. Specify 0 for the last day of the month.
 
 
-Using days in a schedule:
+Using days in a recurrence:
 
-`const sched = {schedules: [{D: [0]}]}`
+`const sched = {recurrences: [{D: [0]}]}`
 
 Performing day based calculations:
 
@@ -392,9 +392,9 @@ cronicle.day.prev(d, 2);
 Days of a week, from 1 to 7. Specify 0 for the last day of the week (Saturday).
 
 
-Using days of week in a schedule:
+Using days of week in a recurrence:
 
-`const sched = {schedules: [{dw: [2,3,4,5,6]}]}`
+`const sched = {recurrences: [{dw: [2,3,4,5,6]}]}`
 
 Performing day of week based calculations:
 
@@ -433,9 +433,9 @@ cronicle.dayOfWeek.prev(d, 5);
 The nth day of the week within a month, from 1 to max weeks in a month. Specify 0 for the last day instance. Used together with the day of the week time period to specify things like the 2nd Tuesday or last Friday of a month.
 
 
-Using days of week count in a schedule:
+Using days of week count in a recurrence:
 
-`const sched = {schedules: [{dc: [2]}]}`
+`const sched = {recurrences: [{dc: [2]}]}`
 
 Performing day of week count based calculations:
 
@@ -478,9 +478,9 @@ cronicle.dayOfWeekCount.prev(d, 2);
 Days in a year, from 1 to max days in year. Specify 0 for last day of the year.
 
 
-Using days of year in a schedule:
+Using days of year in a recurrence:
 
-`const sched = {schedules: [{dy: [189, 267]}]}`
+`const sched = {recurrences: [{dy: [189, 267]}]}`
 
 Performing day of year based calculations:
 
@@ -519,9 +519,9 @@ cronicle.dayOfYear.prev(d, 44);
 Weeks in a month where the 1st of the month is week 1 and following weeks start on Sunday. From 1 to max weeks in the month. Specify 0 for last week of the month.
 
 
-Using weeks of month in a schedule:
+Using weeks of month in a recurrence:
 
-`const sched = {schedules: [{wm: [1, 2]}]}`
+`const sched = {recurrences: [{wm: [1, 2]}]}`
 
 Performing week of month based calculations:
 
@@ -560,9 +560,9 @@ cronicle.weekOfMonth.prev(d, 2);
 The ISO 8601 week of the year. From 1 to max ISO week in the year. Specify 0 for last ISO week of the year.
 
 
-Using weeks of year in a schedule:
+Using weeks of year in a recurrence:
 
-`const sched = {schedules: [{wy: [13,26,39,0]}]}`
+`const sched = {recurrences: [{wy: [13,26,39,0]}]}`
 
 Performing week of year based calculations:
 
@@ -601,9 +601,9 @@ cronicle.weekOfYear.prev(d, 52);
 Months of the year, from 1 to 12. Specify 0 for the last month of the year.
 
 
-Using months in a schedule:
+Using months in a recurrence:
 
-`const sched = {schedules: [{M: [3,5,7]}]}`
+`const sched = {recurrences: [{M: [3,5,7]}]}`
 
 Performing months based calculations:
 
@@ -642,9 +642,9 @@ cronicle.month.prev(d, 2);
 Years, from 1970 to 2099.
 
 
-Using years in a schedule:
+Using years in a recurrence:
 
-`const sched = {schedules: [{Y: [2013, 2014, 2015]}]}`
+`const sched = {recurrences: [{Y: [2013, 2014, 2015]}]}`
 
 Performing years based calculations:
 
@@ -680,7 +680,7 @@ cronicle.year.prev(d, 2012);
 ```
 
 ## Writing a custom time period
-Cronicle is fully extensible and it is easy to create your own custom time periods that can be used to define new schedules. To keep things simple, we'll walk through creating a new time period for indicating morning, afternoon, and evening. For our purposes, morning will be before noon and have a value of 0, afternoon will be before 6pm and have a value of 1, and evening will be before midnight and have a value of 2.
+Cronicle is fully extensible and it is easy to create your own custom time periods that can be used to define new recurrences. To keep things simple, we'll walk through creating a new time period for indicating morning, afternoon, and evening. For our purposes, morning will be before noon and have a value of 0, afternoon will be before 6pm and have a value of 1, and evening will be before midnight and have a value of 2.
 
 
 The first step is to create a name and id for the modifier and add it to the cronicle namespace.
@@ -785,7 +785,7 @@ prev: function(d, val) {
 ```
 
 ### Full implementation
-Here is the code for the completed example. To use the time period, just add this code after including Cronicle into your project and before you use it in any schedules.
+Here is the code for the completed example. To use the time period, just add this code after including Cronicle into your project and before you use it in any recurrences.
 
 ```
 cronicle.partOfDay = cronicle.pd = {
@@ -864,7 +864,7 @@ Using the custom time period is exactly the same as using a built-in time period
 ```
 // use our new time period to specify every 15 mins at night
 var sched = cronicle.parse.recur().every(15).minute().on(2).customPeriod('pd'),
-    next = cronicle.schedule(sched).next(1, new Date(2013, 3, 21));
+    next = cronicle.recurrence(sched).next(1, new Date(2013, 3, 21));
 
 console.log(next.toUTCString());
 --> Sun, 21 Apr 2013 18:00:00 GMT
@@ -874,28 +874,28 @@ console.log(next.toUTCString());
 With Cronicle, not only can you write your own custom time periods, you can also write custom modifiers that can change the behavior of existing time periods. The modifiers sit in between the scheduling engine and the time period allowing you to intercept and modify the results that are returned by the time period.
 
 
-Modifies are specified by attaching `_(modifier-id)` to the time period id that you want to modify. The same time period can be used with different modifiers within the same schedule.
+Modifies are specified by attaching `_(modifier-id)` to the time period id that you want to modify. The same time period can be used with different modifiers within the same recurrence.
 
 ## after (_a)
-Modifies the corresponding time period such that all values after and including the specified value is considered valid. This modifier can be used with any time period. Useful for creating more compact schedules when a time period has a lot of consecutive valid values.
+Modifies the corresponding time period such that all values after and including the specified value is considered valid. This modifier can be used with any time period. Useful for creating more compact recurrences when a time period has a lot of consecutive valid values.
 
 ```
 // all hours after 5:00pm will be valid
-var sched = {schedules: [{h_a: [17]}]};
+var sched = {recurrences: [{h_a: [17]}]};
 
 // equivalent to
-var sched = {schedules: [{h: [17,18,19,20,21,22,23]}]};
+var sched = {recurrences: [{h: [17,18,19,20,21,22,23]}]};
 ```
 
 ## before (_b)
-Modifies the corresponding time period such that all values before (but not including) the specified value is considered valid. This modifier can be used with any time period. Useful for creating more compact schedules when a time period has a lot of consecutive valid values.
+Modifies the corresponding time period such that all values before (but not including) the specified value is considered valid. This modifier can be used with any time period. Useful for creating more compact recurrences when a time period has a lot of consecutive valid values.
 
 ```
 // all hours before 5:00pm will be valid
-var sched = {schedules: [{h_b: [17]}]};
+var sched = {recurrences: [{h_b: [17]}]};
 
 // equivalent to
-var sched = {schedules: [{h: [0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16]}]};
+var sched = {recurrences: [{h: [0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16]}]};
 ```
 
 ## Writing a custom modifier
@@ -932,7 +932,7 @@ Next, *isValid* is modified by tweaking the value that is passed in so that it i
 
 `isValid: function(d, val) { return period.isValid(d, val+1); },`
 
-The *extent* also needs to be modified to reflect the new extent that goes from 0-11. Now that the extent starts at 0, the schedule engine will no longer assume that a 0 value means 'last'. There is nothing else that we need to do to correct for that behavior.
+The *extent* also needs to be modified to reflect the new extent that goes from 0-11. Now that the extent starts at 0, the recurrence engine will no longer assume that a 0 value means 'last'. There is nothing else that we need to do to correct for that behavior.
 
 `extent: function(d) { return [0, 11]; },`
 
@@ -951,7 +951,7 @@ prev: function(d, val) { return period.prev(d, val+1); }
 ```
 
 ### Full implementation
-Here is the code for the completed example. To use the modifier, just add this code after including Cronicle into your project and before you use it in any schedules.
+Here is the code for the completed example. To use the modifier, just add this code after including Cronicle into your project and before you use it in any recurrences.
 
 ```
 cronicle.modifier.month = cronicle.modifier.m = function(period, values) {
@@ -978,29 +978,29 @@ Using the custom modifier is exactly the same as using a built-in modifier.
 
 ```
 // wihtout our modifier, 2 means February
-var sched1 = {schedules: [{M: [2]}]};
+var sched1 = {recurrences: [{M: [2]}]};
 
-cronicle.schedule(sched1).next(1, new Date(2013, 3, 21));
+cronicle.recurrence(sched1).next(1, new Date(2013, 3, 21));
 --> Sat, 01 Feb 2014 00:00:00 GMT
 
 // use our new modifier so that 2 now means March
 var sched = cronicle.parse.recur().customModifier('m', 2).month();
 
-next = cronicle.schedule(sched2).next(1, new Date(2013, 3, 21));
+next = cronicle.recurrence(sched2).next(1, new Date(2013, 3, 21));
 --> Sat, 01 Mar 2014 00:00:00 GMT
 ```
 
-## Occurrences
-Once a schedule has been defined, it can be used to calculate future and past occurrences of that schedule. An occurrence is a date that meets all of the constraints imposed by the schedule.
+## Time Slots
+Once a recurrence has been defined, it can be used to calculate future and past time slots of that recurrence. An time slot is a date that meets all of the constraints imposed by the recurrence.
 
-In order to improve performance, schedules are first compiled prior to occurrences being calculated. The compiled version of the schedule can be reused to find additional occurrences as needed.
+In order to improve performance, recurrences are first compiled prior to time slots being calculated. The compiled version of the recurrence can be reused to find additional time slots as needed.
 
 
-To compile a schedule, pass the schedule definition to `cronicle.schedule`.
+To compile a recurrence, pass the recurrence definition to `cronicle.recurrence`.
 
-`var sched = cronicle.schedule(schedule)`
+`var sched = cronicle.recurrence(recurrence)`
 
-**Tip** All schedule definitions are timezone agnostic. When you need to calculate occurrences, you can decide to perform the calculation using local time or UTC.
+**Tip** All recurrence definitions are timezone agnostic. When you need to calculate time slots, you can decide to perform the calculation using local time or UTC.
 
 ```
 // set cronicle to use UTC time (the default)
@@ -1011,14 +1011,14 @@ cronicle.date.localTime();
 ```
 
 ## isValid(date)
-Returns true if the `date` passed in is a valid occurrence of the schedule, false otherwise.
+Returns true if the `date` passed in is a valid time slot of the recurrence, false otherwise.
 
-`var valid = cronicle.schedule(schedule).isValid(date)`
+`var valid = cronicle.recurrence(recurrence).isValid(date)`
 
 ### Examples
 
 ```
-var sched = cronicle.schedule(cronicle.parse.recur().on(1,2,3).minute());
+var sched = cronicle.recurrence(cronicle.parse.recur().on(1,2,3).minute());
 
 sched.isValid(new Date('2013-03-22T10:02:00Z'));
 --> true
@@ -1031,29 +1031,29 @@ sched.isValid(new Date('2013-03-22T10:02:05Z'));
 ```
 
 ## Calculating instances
-Instances are individual dates that meet all of the constraints that are imposed by the schedule. Instances can be calculated both forwards and backwards, in any quantity, and optionally between a start and end date. When calculating multiple instances, the minimum time between instances is based on the smallest ranged time period.
+Instances are individual dates that meet all of the constraints that are imposed by the recurrence. Instances can be calculated both forwards and backwards, in any quantity, and optionally between a start and end date. When calculating multiple instances, the minimum time between instances is based on the smallest ranged time period.
 
 
-**cronicle.schedule(*schedule*).all(*start, end*)**
-Calculates *all* occurrences of `schedule` starting from the `start` date and ending before the `end` date. If an end date is not specified, the maximum results returned is 1000.
+**cronicle.recurrence(*recurrence*).all(*start, end*)**
+Calculates *all* time slots of `recurrence` starting from the `start` date and ending before the `end` date. If an end date is not specified, the maximum results returned is 1000.
 
-`cronicle.schedule({schedules: [{m: [5]}]}).all(startDate, endDate)`
+`cronicle.recurrence({recurrences: [{m: [5]}]}).all(startDate, endDate)`
 
-**cronicle.schedule(*schedule*).next(*count, start, end*)**
-Calculates the next `count` occurrences of `schedule`, optionally starting from the `start` date and ending before the `end` date.
+**cronicle.recurrence(*recurrence*).next(*count, start, end*)**
+Calculates the next `count` time slots of `recurrence`, optionally starting from the `start` date and ending before the `end` date.
 
-`cronicle.schedule({schedules: [{m: [5]}]}).next(2)`
+`cronicle.recurrence({recurrences: [{m: [5]}]}).next(2)`
 
 
-**cronicle.schedule(*schedule*).prev(*count, start, end*)**
-Calculates the previous `count` occurrences of `schedule`, optionally starting from the `start` date and ending before the `end` date. When using previous, the `start` date must be greater than the `end` date.
+**cronicle.recurrence(*recurrence*).prev(*count, start, end*)**
+Calculates the previous `count` time slots of `recurrence`, optionally starting from the `start` date and ending before the `end` date. When using previous, the `start` date must be greater than the `end` date.
 
-`cronicle.schedule({schedules: [{m: [5]}]}).prev(2)`
+`cronicle.recurrence({recurrences: [{m: [5]}]}).prev(2)`
 
 ### Examples
 ```
 // sched for minute equal to 1,2, or 3
-var sched = cronicle.schedule(cronicle.parse.recur().on(1,2,3).minute()),
+var sched = cronicle.recurrence(cronicle.parse.recur().on(1,2,3).minute()),
     start = new Date('2013-05-22T10:22:00Z');
 
 // get the next instance
@@ -1076,23 +1076,23 @@ sched.prev(1, start);
 ## Calculating ranges
 Ranges combine consecutively valid instances into a single start and end block of time. The start time is the first valid instance of the block of time. The end time is the first invalid time after the block.
 
-Ranges are useful when scheduling blocks of time such as a meeting or activity. The schedule definition defines the start and end time of the activity and then ranges are used to find their occurrences.
+Ranges are useful when scheduling blocks of time such as a meeting or activity. The recurrence definition defines the start and end time of the activity and then ranges are used to find their time slots.
 
 
-**cronicle.schedule(*schedule*).nextRange(*count, start, end*)**
-Calculates the next count ranges of schedule, optionally starting from the start date and ending before the end date.
+**cronicle.recurrence(*recurrence*).nextRange(*count, start, end*)**
+Calculates the next count ranges of recurrence, optionally starting from the start date and ending before the end date.
 
-`cronicle.schedule({schedules: [{m:[5,6,7]}]}).nextRange(2)`
+`cronicle.recurrence({recurrences: [{m:[5,6,7]}]}).nextRange(2)`
 
-**cronicle.schedule(*schedule*).prevRange(*count, start, end*)**
-Calculates the previous count ranges of schedule, optionally starting from the start date and ending before the end date.
+**cronicle.recurrence(*recurrence*).prevRange(*count, start, end*)**
+Calculates the previous count ranges of recurrence, optionally starting from the start date and ending before the end date.
 
-`cronicle.schedule({schedules: [{m:[5,6,7]}]}).prevRange(2)`
+`cronicle.recurrence({recurrences: [{m:[5,6,7]}]}).prevRange(2)`
 
 ### Examples
 ```
 // sched for minute equal to 1,2, or 3
-var sched = cronicle.schedule(cronicle.parse.recur().on(1,2,3).minute()),
+var sched = cronicle.recurrence(cronicle.parse.recur().on(1,2,3).minute()),
     start = new Date('2013-05-22T10:22:00Z');
 
 // get the next range
