@@ -1,3 +1,3 @@
 'use strict'
 
-module.exports = require('./lib/cronicle')
+module.exports = require('./lib/recurrify')

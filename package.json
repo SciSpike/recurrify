@@ -1,5 +1,5 @@
 {
-  "name": "cronicle",
+  "name": "recurrify",
   "version": "0.0.0-pre.4",
   "description": "TODO",
   "main": "index.js",
@@ -12,16 +12,16 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/SciSpike/cronicle.git"
+    "url": "git+https://github.com/SciSpike/recurrify.git"
   },
   "keywords": [
     "cron"
   ],
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/SciSpike/cronicle/issues"
+    "url": "https://github.com/SciSpike/recurrify/issues"
   },
-  "homepage": "https://github.com/SciSpike/cronicle#readme",
+  "homepage": "https://github.com/SciSpike/recurrify#readme",
   "devDependencies": {
     "mocha": "5.2.0",
     "npm-run-all": "4.1.3",

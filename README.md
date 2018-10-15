@@ -1,28 +1,29 @@
-# cronicle
+# recurrify
 
-Shamelessly based on a fork of [later.js](https://github.com/kirkins/later).
+Based on a shameless fork of [later.js](https://github.com/kirkins/later).
 
 * Added ability to get *all* time slots of a recurrence between a start and end time
 * Removed the parsers in favor of just dealing with recurrence definitions directly
 * Removed `setTimeout` and `setInterval` implementations
 * Removed bower and Makefile
+* Renamed `schedule` to `recurrence` and `occurrence` to `time slot`
 * WIP to update syntax to more modern ES6+
 
 ## Installation
 
-`$ npm install cronicle`
+`$ npm install recurrify`
 
 ## Example usage
 
 ```
-const cronicle = require('cronicle')
+const recurrify = require('recurrify')
 
 const startDate = new Date('2018-10-01T13:00:00Z')
 const endDate = new Date('2018-10-01T15:00:00Z')
 
 // every 5 minutes
 const sched = { 'recurrences': [{ 'm': [0, 5, 10, 15, 20, 25, 30, 35, 40, 45, 50, 55] }] }
-const timeSlots = cronicle.recurrence(sched).all(startDate, endDate)
+const timeSlots = recurrify.recurrence(sched).all(startDate, endDate)
 console.log(timeSlots)
 ```
 
@@ -61,9 +62,9 @@ $ node example.js
 `$ npm test`
 
 ## Recurrences
-Recurrences in Cronicle are json objects that define a set of time periods along with the values that should be considered valid for that time period. The combination of a time period with their valid values is called a *constraint*. Cronicle then takes all of the constraints that have been defined and finds dates that match all of them.
+Recurrences in Recurrify are json objects that define a set of time periods along with the values that should be considered valid for that time period. The combination of a time period with their valid values is called a *constraint*. Recurrify then takes all of the constraints that have been defined and finds dates that match all of them.
 
-Since Cronicle recurrences are json objects, they can easily be serialized and stored in caches and databases as needed. They are also completely deterministic which means a recurrence will always produce exactly the same valid time slots. Therefore, time slots never need to be stored as they can always be recalculated from the recurrence definition.
+Since Recurrify recurrences are json objects, they can easily be serialized and stored in caches and databases as needed. They are also completely deterministic which means a recurrence will always produce exactly the same valid time slots. Therefore, time slots never need to be stored as they can always be recalculated from the recurrence definition.
 
 ## Basic recurrences
 A basic recurrence is a set of time periods along with their valid values. A date is only considered valid if it meets all of the constraints within a basic recurrence. A basic recurrence can include as many time periods (with or without modifiers) as needed, in any order.
@@ -137,7 +138,7 @@ const recurrence = {
 ```
 
 ## Performance considerations
-While Cronicle has been designed to efficiently calculate time slots for all types and complexities of recurrences, there are a few things to keep in mind for applications that have particularly high performance requirements.
+While Recurrify has been designed to efficiently calculate time slots for all types and complexities of recurrences, there are a few things to keep in mind for applications that have particularly high performance requirements.
 
 * Basic time periods perform the best. These include years, months, days, hours, minutes, and seconds. Calculating ISO week of year is particularly expensive.
 * Recurrences without exceptions perform better than those with exceptions. Defining your recurrence without the need for exceptions will improve performance.
@@ -146,11 +147,11 @@ While Cronicle has been designed to efficiently calculate time slots for all typ
 
 
 ## Time periods
-Time periods are the crux of the Cronicle library and are used to define new recurrences. Cronicle comes with a large assortment of time periods and is also fully extensible making it easy to create custom time periods.
+Time periods are the crux of the Recurrify library and are used to define new recurrences. Recurrify comes with a large assortment of time periods and is also fully extensible making it easy to create custom time periods.
 
-While time periods are primarily used by Cronicle to define recurrences and calculate time slots, they are also useful for performing time based calculations. Calculating values such as ISO week number, moving between days of the year, or figuring out how many days are in a month are all possible using the time period interface.
+While time periods are primarily used by Recurrify to define recurrences and calculate time slots, they are also useful for performing time based calculations. Calculating values such as ISO week number, moving between days of the year, or figuring out how many days are in a month are all possible using the time period interface.
 
-If you don't see the time period that you need for your recurrence, Cronicle is fully extensible and it is easy to write your own. See the custom time period at the bottom of this page for an example.
+If you don't see the time period that you need for your recurrence, Recurrify is fully extensible and it is easy to write your own. See the custom time period at the bottom of this page for an example.
 
 ## Interface
 All time periods implement the same public interface for interacting with them:
@@ -196,31 +197,31 @@ Performing seconds based calculations:
 ```
 var d = new Date('2013-03-22T10:02:05Z');
 
-cronicle.second.name;
+recurrify.second.name;
 --> 'second'
 
-cronicle.second.range;
+recurrify.second.range;
 --> 1
 
-cronicle.second.val(d);
+recurrify.second.val(d);
 --> 5
 
-cronicle.second.isValid(d, 10);
+recurrify.second.isValid(d, 10);
 --> false
 
-cronicle.second.extent();
+recurrify.second.extent();
 --> [0, 59]
 
-cronicle.second.start(d);
+recurrify.second.start(d);
 --> 'Fri, 22 Mar 2013 10:02:05 GMT'
 
-cronicle.second.end(d);
+recurrify.second.end(d);
 --> 'Fri, 22 Mar 2013 10:02:05 GMT'
 
-cronicle.second.next(d, 27);
+recurrify.second.next(d, 27);
 --> 'Fri, 22 Mar 2013 10:02:27 GMT'
 
-cronicle.second.prev(d, 27);
+recurrify.second.prev(d, 27);
 --> 'Fri, 22 Mar 2013 10:01:27 GMT'
 ```
 
@@ -237,31 +238,31 @@ Performing minutes based calculations:
 ```
 var d = new Date('2013-03-22T10:02:05Z');
 
-cronicle.minute.name;
+recurrify.minute.name;
 --> 'minute'
 
-cronicle.minute.range;
+recurrify.minute.range;
 --> 60
 
-cronicle.minute.val(d);
+recurrify.minute.val(d);
 --> 2
 
-cronicle.minute.isValid(d, 2);
+recurrify.minute.isValid(d, 2);
 --> true
 
-cronicle.minute.extent();
+recurrify.minute.extent();
 --> [0, 59]
 
-cronicle.minute.start(d);
+recurrify.minute.start(d);
 --> 'Fri, 22 Mar 2013 10:02:00 GMT'
 
-cronicle.minute.end(d);
+recurrify.minute.end(d);
 --> 'Fri, 22 Mar 2013 10:02:59 GMT'
 
-cronicle.minute.next(d, 27);
+recurrify.minute.next(d, 27);
 --> 'Fri, 22 Mar 2013 10:27:00 GMT'
 
-cronicle.minute.prev(d, 27);
+recurrify.minute.prev(d, 27);
 --> 'Fri, 22 Mar 2013 09:27:59 GMT'
 ```
 
@@ -278,31 +279,31 @@ Performing hours based calculations:
 ```
 var d = new Date('2013-03-22T10:02:05Z');
 
-cronicle.hour.name;
+recurrify.hour.name;
 --> 'hour'
 
-cronicle.hour.range;
+recurrify.hour.range;
 --> 3600
 
-cronicle.hour.val(d);
+recurrify.hour.val(d);
 --> 10
 
-cronicle.hour.isValid(d, 2);
+recurrify.hour.isValid(d, 2);
 --> false
 
-cronicle.hour.extent();
+recurrify.hour.extent();
 --> [0, 23]
 
-cronicle.hour.start(d);
+recurrify.hour.start(d);
 --> 'Fri, 22 Mar 2013 10:00:00 GMT'
 
-cronicle.hour.end(d);
+recurrify.hour.end(d);
 --> 'Fri, 22 Mar 2013 10:59:59 GMT'
 
-cronicle.hour.next(d, 5);
+recurrify.hour.next(d, 5);
 --> 'Sat, 23 Mar 2013 05:00:00 GMT'
 
-cronicle.hour.prev(d, 21);
+recurrify.hour.prev(d, 21);
 --> 'Thu, 21 Mar 2013 21:59:59 GMT'
 ```
 
@@ -319,31 +320,31 @@ Performing time based calculations:
 ```
 var d = new Date('2013-03-22T10:02:05Z');
 
-cronicle.time.name;
+recurrify.time.name;
 --> 'time'
 
-cronicle.time.range;
+recurrify.time.range;
 --> 1
 
-cronicle.time.val(d);
+recurrify.time.val(d);
 --> 36125
 
-cronicle.time.isValid(d, 36125);
+recurrify.time.isValid(d, 36125);
 --> true
 
-cronicle.time.extent();
+recurrify.time.extent();
 --> [0, 86399]
 
-cronicle.time.start(d);
+recurrify.time.start(d);
 --> 'Fri, 22 Mar 2013 00:00:00 GMT'
 
-cronicle.time.end(d);
+recurrify.time.end(d);
 --> 'Fri, 22 Mar 2013 23:59:59 GMT'
 
-cronicle.time.next(d, 60);
+recurrify.time.next(d, 60);
 --> 'Sat, 23 Mar 2013 00:01:00 GMT'
 
-cronicle.time.prev(d, 60);
+recurrify.time.prev(d, 60);
 --> 'Fri, 22 Mar 2013 00:01:00 GMT'
 ```
 
@@ -360,31 +361,31 @@ Performing day based calculations:
 ```
 var d = new Date('2013-03-22T10:02:05Z');
 
-cronicle.day.name;
+recurrify.day.name;
 --> 'day'
 
-cronicle.day.range;
+recurrify.day.range;
 --> 86400
 
-cronicle.day.val(d);
+recurrify.day.val(d);
 --> 22
 
-cronicle.day.isValid(d, 3);
+recurrify.day.isValid(d, 3);
 --> false
 
-cronicle.day.extent(d);
+recurrify.day.extent(d);
 --> [1, 31]
 
-cronicle.day.start(d);
+recurrify.day.start(d);
 --> 'Fri, 22 Mar 2013 00:00:00 GMT'
 
-cronicle.day.end(d);
+recurrify.day.end(d);
 --> 'Fri, 22 Mar 2013 23:59:59 GMT'
 
-cronicle.day.next(d, 11);
+recurrify.day.next(d, 11);
 --> 'Thu, 11 Apr 2013 00:00:00 GMT'
 
-cronicle.day.prev(d, 2);
+recurrify.day.prev(d, 2);
 --> 'Sat, 02 Mar 2013 23:59:59 GMT'
 ```
 
@@ -401,31 +402,31 @@ Performing day of week based calculations:
 ```
 var d = new Date('2013-03-22T10:02:05Z');
 
-cronicle.dayOfWeek.name;
+recurrify.dayOfWeek.name;
 --> 'day of week'
 
-cronicle.dayOfWeek.range;
+recurrify.dayOfWeek.range;
 --> 86400
 
-cronicle.dayOfWeek.val(d);
+recurrify.dayOfWeek.val(d);
 --> 6
 
-cronicle.dayOfWeek.isValid(d, 3);
+recurrify.dayOfWeek.isValid(d, 3);
 --> false
 
-cronicle.dayOfWeek.extent();
+recurrify.dayOfWeek.extent();
 --> [1, 7]
 
-cronicle.dayOfWeek.start(d);
+recurrify.dayOfWeek.start(d);
 --> 'Fri, 22 Mar 2013 00:00:00 GMT'
 
-cronicle.dayOfWeek.end(d);
+recurrify.dayOfWeek.end(d);
 --> 'Fri, 22 Mar 2013 23:59:59 GMT'
 
-cronicle.dayOfWeek.next(d, 1);
+recurrify.dayOfWeek.next(d, 1);
 --> 'Sun, 24 Mar 2013 00:00:00 GMT'
 
-cronicle.dayOfWeek.prev(d, 5);
+recurrify.dayOfWeek.prev(d, 5);
 --> 'Thu, 21 Mar 2013 23:59:59 GMT'
 ```
 
@@ -442,35 +443,35 @@ Performing day of week count based calculations:
 ```
 var d = new Date('2013-03-22T10:02:05Z');
 
-cronicle.dayOfWeekCount.name;
+recurrify.dayOfWeekCount.name;
 --> 'day of week count'
 
-cronicle.dayOfWeekCount.range;
+recurrify.dayOfWeekCount.range;
 --> 604800
 
-cronicle.dayOfWeekCount.val(d);
+recurrify.dayOfWeekCount.val(d);
 --> 4
 
-cronicle.dayOfWeekCount.isValid(d, 4);
+recurrify.dayOfWeekCount.isValid(d, 4);
 --> true
 
-cronicle.dayOfWeekCount.extent(d);
+recurrify.dayOfWeekCount.extent(d);
 --> [1, 5]
 
-cronicle.dayOfWeekCount.start(d);
+recurrify.dayOfWeekCount.start(d);
 --> 'Fri, 22 Mar 2013 00:00:00 GMT'
 
-cronicle.dayOfWeekCount.end(d);
+recurrify.dayOfWeekCount.end(d);
 --> 'Thu, 28 Mar 2013 23:59:59 GMT'
 
 // zero is special cased and means the last instance of
 // a day of the week in the month, instead of meaning the
 // first day of the week with the highest instance count
 // which would have been Mar 29 with value 5.
-cronicle.dayOfWeekCount.next(d, 0);
+recurrify.dayOfWeekCount.next(d, 0);
 --> 'Mon, 25 Mar 2013 00:00:00 GMT'
 
-cronicle.dayOfWeekCount.prev(d, 2);
+recurrify.dayOfWeekCount.prev(d, 2);
 --> 'Thu, 14 Mar 2013 23:59:59 GMT'
 ```
 
@@ -487,31 +488,31 @@ Performing day of year based calculations:
 ```
 var d = new Date('2013-03-22T10:02:05Z');
 
-cronicle.dayOfYear.name;
+recurrify.dayOfYear.name;
 --> 'day of year'
 
-cronicle.dayOfYear.range;
+recurrify.dayOfYear.range;
 --> 86400
 
-cronicle.dayOfYear.val(d);
+recurrify.dayOfYear.val(d);
 --> 81
 
-cronicle.dayOfYear.isValid(d, 4);
+recurrify.dayOfYear.isValid(d, 4);
 --> false
 
-cronicle.dayOfYear.extent(d);
+recurrify.dayOfYear.extent(d);
 --> [1, 365]
 
-cronicle.dayOfYear.start(d);
+recurrify.dayOfYear.start(d);
 --> 'Fri, 22 Mar 2013 00:00:00 GMT'
 
-cronicle.dayOfYear.end(d);
+recurrify.dayOfYear.end(d);
 --> 'Fri, 22 Mar 2013 23:59:59 GMT'
 
-cronicle.dayOfYear.next(d, 256);
+recurrify.dayOfYear.next(d, 256);
 --> 'Fri, 13 Sep 2013 00:00:00 GMT'
 
-cronicle.dayOfYear.prev(d, 44);
+recurrify.dayOfYear.prev(d, 44);
 --> 'Wed, 13 Feb 2013 23:59:59 GMT'
 ```
 
@@ -528,31 +529,31 @@ Performing week of month based calculations:
 ```
 var d = new Date('2013-03-22T10:02:05Z');
 
-cronicle.weekOfMonth.name;
+recurrify.weekOfMonth.name;
 --> 'week of month'
 
-cronicle.weekOfMonth.range;
+recurrify.weekOfMonth.range;
 --> 604800
 
-cronicle.weekOfMonth.val(d);
+recurrify.weekOfMonth.val(d);
 --> 4
 
-cronicle.weekOfMonth.isValid(d, 4);
+recurrify.weekOfMonth.isValid(d, 4);
 --> true
 
-cronicle.weekOfMonth.extent(d);
+recurrify.weekOfMonth.extent(d);
 --> [1, 6]
 
-cronicle.weekOfMonth.start(d);
+recurrify.weekOfMonth.start(d);
 --> 'Sun, 17 Mar 2013 00:00:00 GMT'
 
-cronicle.weekOfMonth.end(d);
+recurrify.weekOfMonth.end(d);
 --> 'Sat, 23 Mar 2013 23:59:59 GMT'
 
-cronicle.weekOfMonth.next(d, 1);
+recurrify.weekOfMonth.next(d, 1);
 --> 'Mon, 01 Apr 2013 00:00:00 GMT'
 
-cronicle.weekOfMonth.prev(d, 2);
+recurrify.weekOfMonth.prev(d, 2);
 --> 'Sat, 09 Mar 2013 23:59:59 GMT'
 ```
 
@@ -569,31 +570,31 @@ Performing week of year based calculations:
 ```
 var d = new Date('2013-03-22T10:02:05Z');
 
-cronicle.weekOfYear.name;
+recurrify.weekOfYear.name;
 --> 'week of year'
 
-cronicle.weekOfYear.range;
+recurrify.weekOfYear.range;
 --> 604800
 
-cronicle.weekOfYear.val(d);
+recurrify.weekOfYear.val(d);
 --> 12
 
-cronicle.weekOfYear.isValid(d, 21);
+recurrify.weekOfYear.isValid(d, 21);
 --> false
 
-cronicle.weekOfYear.extent(d);
+recurrify.weekOfYear.extent(d);
 --> [1, 52]
 
-cronicle.weekOfYear.start(d);
+recurrify.weekOfYear.start(d);
 --> 'Mon, 18 Mar 2013 00:00:00 GMT'
 
-cronicle.weekOfYear.end(d);
+recurrify.weekOfYear.end(d);
 --> 'Sun, 24 Mar 2013 23:59:59 GMT'
 
-cronicle.weekOfYear.next(d, 47);
+recurrify.weekOfYear.next(d, 47);
 --> 'Mon, 18 Nov 2013 00:00:00 GMT'
 
-cronicle.weekOfYear.prev(d, 52);
+recurrify.weekOfYear.prev(d, 52);
 --> 'Sun, 30 Dec 2012 23:59:59 GMT'
 ```
 
@@ -610,31 +611,31 @@ Performing months based calculations:
 ```
 var d = new Date('2013-03-22T10:02:05Z');
 
-cronicle.month.name;
+recurrify.month.name;
 --> 'month'
 
-cronicle.month.range;
+recurrify.month.range;
 --> 2629740
 
-cronicle.month.val(d);
+recurrify.month.val(d);
 --> 3
 
-cronicle.month.isValid(d, 3);
+recurrify.month.isValid(d, 3);
 --> true
 
-cronicle.month.extent();
+recurrify.month.extent();
 --> [1, 12]
 
-cronicle.month.start(d);
+recurrify.month.start(d);
 --> 'Fri, 01 Mar 2013 00:00:00 GMT'
 
-cronicle.month.end(d);
+recurrify.month.end(d);
 --> 'Sun, 31 Mar 2013 23:59:59 GMT'
 
-cronicle.month.next(d, 11);
+recurrify.month.next(d, 11);
 --> 'Fri, 01 Nov 2013 00:00:00 GMT'
 
-cronicle.month.prev(d, 2);
+recurrify.month.prev(d, 2);
 --> 'Thu, 28 Feb 2013 23:59:59 GMT'
 ```
 
@@ -651,42 +652,42 @@ Performing years based calculations:
 ```
 var d = new Date('2013-03-22T10:02:05Z');
 
-cronicle.year.name;
+recurrify.year.name;
 --> 'year'
 
-cronicle.year.range;
+recurrify.year.range;
 --> 31556900
 
-cronicle.year.val(d);
+recurrify.year.val(d);
 --> 2013
 
-cronicle.year.isValid(d, 2013);
+recurrify.year.isValid(d, 2013);
 --> true
 
-cronicle.year.extent();
+recurrify.year.extent();
 --> [1970, 2099]
 
-cronicle.year.start(d);
+recurrify.year.start(d);
 --> 'Tue, 01 Jan 2013 00:00:00 GMT'
 
-cronicle.year.end(d);
+recurrify.year.end(d);
 --> 'Tue, 31 Dec 2013 23:59:59 GMT'
 
-cronicle.year.next(d, 2014);
+recurrify.year.next(d, 2014);
 --> 'Wed, 01 Jan 2014 00:00:00 GMT'
 
-cronicle.year.prev(d, 2012);
+recurrify.year.prev(d, 2012);
 --> 'Mon, 31 Dec 2012 23:59:59 GMT'
 ```
 
 ## Writing a custom time period
-Cronicle is fully extensible and it is easy to create your own custom time periods that can be used to define new recurrences. To keep things simple, we'll walk through creating a new time period for indicating morning, afternoon, and evening. For our purposes, morning will be before noon and have a value of 0, afternoon will be before 6pm and have a value of 1, and evening will be before midnight and have a value of 2.
+Recurrify is fully extensible and it is easy to create your own custom time periods that can be used to define new recurrences. To keep things simple, we'll walk through creating a new time period for indicating morning, afternoon, and evening. For our purposes, morning will be before noon and have a value of 0, afternoon will be before 6pm and have a value of 1, and evening will be before midnight and have a value of 2.
 
 
-The first step is to create a name and id for the modifier and add it to the cronicle namespace.
+The first step is to create a name and id for the modifier and add it to the recurrify namespace.
 
 ```
-cronicle.partOfDay = cronicle.pd = {
+recurrify.partOfDay = recurrify.pd = {
   // interface implementation goes here
 };
 ```
@@ -697,14 +698,14 @@ Next, we need to implement the time period interface. First we will just specify
 
 The range is approximately 6 hours. Though some of our periods are longer and some shorter, we'll use the shortest range which is afternoon at 6 hours.
 
-`range: cronicle.h.range * 6,`
+`range: recurrify.h.range * 6,`
 
 We then implement val to return the appropriate value based on the definition described previously.
 
 ```
 val: function(d) {
-  return cronicle.h.val(d) < 12 ? 0 :
-         cronicle.h.val(d) < 6 ? 1 :
+  return recurrify.h.val(d) < 12 ? 0 :
+         recurrify.h.val(d) < 6 ? 1 :
          2;
 },
 ```
@@ -713,7 +714,7 @@ Then we can use our new val function to implement isValid.
 
 ```
 isValid: function(d, val) {
-  return cronicle.pd.val(d) === val;
+  return recurrify.pd.val(d) === val;
 },
 ```
 
@@ -725,32 +726,32 @@ Next we need to implement start and end based on the current time period. This w
 
 ```
 start: function(d) {
-  var hour = cronicle.pd.val(d) === 0 ? 0 :
-                cronicle.pd.val(d) === 1 ? 12 :
+  var hour = recurrify.pd.val(d) === 0 ? 0 :
+                recurrify.pd.val(d) === 1 ? 12 :
                 6;
 
-  // cronicle.date.next is a helper function for creating the date in UTC or
+  // recurrify.date.next is a helper function for creating the date in UTC or
   // localTime as appropriate
-  return cronicle.date.next(
-    cronicle.Y.val(d),
-    cronicle.M.val(d),
-    cronicle.D.val(d),
+  return recurrify.date.next(
+    recurrify.Y.val(d),
+    recurrify.M.val(d),
+    recurrify.D.val(d),
     hour
   );
 },
 
 end: function(d) {
-  var hour = cronicle.pd.val(d) === 0 ? 11 :
-                cronicle.pd.val(d) === 1 ? 5 :
+  var hour = recurrify.pd.val(d) === 0 ? 11 :
+                recurrify.pd.val(d) === 1 ? 5 :
                 23;
 
-  // cronicle.date.prev is a helper function for creating the date in UTC or
+  // recurrify.date.prev is a helper function for creating the date in UTC or
   // localTime as appropriate, and automatically adjusts the date to be at
   // the last second of the specified time
-  return cronicle.date.prev(
-    cronicle.Y.val(d),
-    cronicle.M.val(d),
-    cronicle.D.val(d),
+  return recurrify.date.prev(
+    recurrify.Y.val(d),
+    recurrify.M.val(d),
+    recurrify.D.val(d),
     hour
   );
 },
@@ -762,11 +763,11 @@ Finally, we need to implement next and prev so that you can move to different pa
 next: function(d, val) {
   var hour = val === 0 ? 0 : val === 1 ? 12 : 18;
 
-  return cronicle.date.next(
-    cronicle.Y.val(d),
-    cronicle.M.val(d),
+  return recurrify.date.next(
+    recurrify.Y.val(d),
+    recurrify.M.val(d),
     // increment the day if we already passed the desired time period
-    cronicle.D.val(d) + (hour < cronicle.h.val(d) ? 1 : 0),
+    recurrify.D.val(d) + (hour < recurrify.h.val(d) ? 1 : 0),
     hour
   );
 },
@@ -774,60 +775,60 @@ next: function(d, val) {
 prev: function(d, val) {
   var hour = val === 0 ? 11 : val === 1 ? 5 : 23;
 
-  return cronicle.date.prev(
-    cronicle.Y.val(d),
-    cronicle.M.val(d),
+  return recurrify.date.prev(
+    recurrify.Y.val(d),
+    recurrify.M.val(d),
     // decrement the day if we already passed the desired time period
-    cronicle.D.val(d) + (hour > cronicle.h.val(d) ? -1 : 0),
+    recurrify.D.val(d) + (hour > recurrify.h.val(d) ? -1 : 0),
     hour
   );
 }
 ```
 
 ### Full implementation
-Here is the code for the completed example. To use the time period, just add this code after including Cronicle into your project and before you use it in any recurrences.
+Here is the code for the completed example. To use the time period, just add this code after including Recurrify into your project and before you use it in any recurrences.
 
 ```
-cronicle.partOfDay = cronicle.pd = {
+recurrify.partOfDay = recurrify.pd = {
 
   name: 'part of day',
 
-  range: cronicle.h.range * 6,
+  range: recurrify.h.range * 6,
 
   val: function(d) {
-    return cronicle.h.val(d) < 12 ? 0 :
-           cronicle.h.val(d) < 18 ? 1 :
+    return recurrify.h.val(d) < 12 ? 0 :
+           recurrify.h.val(d) < 18 ? 1 :
            2;
   },
 
   isValid: function(d, val) {
-    return cronicle.pd.val(d) === val;
+    return recurrify.pd.val(d) === val;
   },
 
   extent: function(d) { return [0, 2]; },
 
   start: function(d) {
-    var hour = cronicle.pd.val(d) === 0 ? 0 :
-                  cronicle.pd.val(d) === 1 ? 12 :
+    var hour = recurrify.pd.val(d) === 0 ? 0 :
+                  recurrify.pd.val(d) === 1 ? 12 :
                   18;
 
-    return cronicle.date.next(
-      cronicle.Y.val(d),
-      cronicle.M.val(d),
-      cronicle.D.val(d),
+    return recurrify.date.next(
+      recurrify.Y.val(d),
+      recurrify.M.val(d),
+      recurrify.D.val(d),
       hour
     );
   },
 
   end: function(d) {
-    var hour = cronicle.pd.val(d) === 0 ? 11 :
-                  cronicle.pd.val(d) === 1 ? 5 :
+    var hour = recurrify.pd.val(d) === 0 ? 11 :
+                  recurrify.pd.val(d) === 1 ? 5 :
                   23;
 
-    return cronicle.date.prev(
-      cronicle.Y.val(d),
-      cronicle.M.val(d),
-      cronicle.D.val(d),
+    return recurrify.date.prev(
+      recurrify.Y.val(d),
+      recurrify.M.val(d),
+      recurrify.D.val(d),
       hour
     );
   },
@@ -835,11 +836,11 @@ cronicle.partOfDay = cronicle.pd = {
   next: function(d, val) {
     var hour = val === 0 ? 0 : val === 1 ? 12 : 18;
 
-    return cronicle.date.next(
-      cronicle.Y.val(d),
-      cronicle.M.val(d),
+    return recurrify.date.next(
+      recurrify.Y.val(d),
+      recurrify.M.val(d),
       // increment the day if we already passed the desired time period
-      cronicle.D.val(d) + (hour < cronicle.h.val(d) ? 1 : 0),
+      recurrify.D.val(d) + (hour < recurrify.h.val(d) ? 1 : 0),
       hour
     );
   },
@@ -847,11 +848,11 @@ cronicle.partOfDay = cronicle.pd = {
   prev: function(d, val) {
     var hour = val === 0 ? 11 : val === 1 ? 5 : 23;
 
-    return cronicle.date.prev(
-      cronicle.Y.val(d),
-      cronicle.M.val(d),
+    return recurrify.date.prev(
+      recurrify.Y.val(d),
+      recurrify.M.val(d),
       // decrement the day if we already passed the desired time period
-      cronicle.D.val(d) + (hour > cronicle.h.val(d) ? -1 : 0),
+      recurrify.D.val(d) + (hour > recurrify.h.val(d) ? -1 : 0),
       hour
     );
   }
@@ -863,15 +864,15 @@ Using the custom time period is exactly the same as using a built-in time period
 
 ```
 // use our new time period to specify every 15 mins at night
-var sched = cronicle.parse.recur().every(15).minute().on(2).customPeriod('pd'),
-    next = cronicle.recurrence(sched).next(1, new Date(2013, 3, 21));
+var sched = recurrify.parse.recur().every(15).minute().on(2).customPeriod('pd'),
+    next = recurrify.recurrence(sched).next(1, new Date(2013, 3, 21));
 
 console.log(next.toUTCString());
 --> Sun, 21 Apr 2013 18:00:00 GMT
 ```
 
 ## Modifiers
-With Cronicle, not only can you write your own custom time periods, you can also write custom modifiers that can change the behavior of existing time periods. The modifiers sit in between the scheduling engine and the time period allowing you to intercept and modify the results that are returned by the time period.
+With Recurrify, not only can you write your own custom time periods, you can also write custom modifiers that can change the behavior of existing time periods. The modifiers sit in between the scheduling engine and the time period allowing you to intercept and modify the results that are returned by the time period.
 
 
 Modifies are specified by attaching `_(modifier-id)` to the time period id that you want to modify. The same time period can be used with different modifiers within the same recurrence.
@@ -905,7 +906,7 @@ Custom modifiers are very similar to custom time periods and share the same inte
 The first step is to create a name and id for the modifier and add it to the modifier namespace. Modifiers take the time period that is being modified along with the specified values as arguments.
 
 ```
-cronicle.modifier.month = cronicle.modifier.m = function(period, values) {
+recurrify.modifier.month = recurrify.modifier.m = function(period, values) {
   if(period.name !== 'month') {
     throw new Error('Month modifier only works with months!');
   }
@@ -951,10 +952,10 @@ prev: function(d, val) { return period.prev(d, val+1); }
 ```
 
 ### Full implementation
-Here is the code for the completed example. To use the modifier, just add this code after including Cronicle into your project and before you use it in any recurrences.
+Here is the code for the completed example. To use the modifier, just add this code after including Recurrify into your project and before you use it in any recurrences.
 
 ```
-cronicle.modifier.month = cronicle.modifier.m = function(period, values) {
+recurrify.modifier.month = recurrify.modifier.m = function(period, values) {
   if(period.name !== 'month') {
     throw new Error('Month modifier only works with months!');
   }
@@ -980,13 +981,13 @@ Using the custom modifier is exactly the same as using a built-in modifier.
 // wihtout our modifier, 2 means February
 var sched1 = {recurrences: [{M: [2]}]};
 
-cronicle.recurrence(sched1).next(1, new Date(2013, 3, 21));
+recurrify.recurrence(sched1).next(1, new Date(2013, 3, 21));
 --> Sat, 01 Feb 2014 00:00:00 GMT
 
 // use our new modifier so that 2 now means March
-var sched = cronicle.parse.recur().customModifier('m', 2).month();
+var sched = recurrify.parse.recur().customModifier('m', 2).month();
 
-next = cronicle.recurrence(sched2).next(1, new Date(2013, 3, 21));
+next = recurrify.recurrence(sched2).next(1, new Date(2013, 3, 21));
 --> Sat, 01 Mar 2014 00:00:00 GMT
 ```
 
@@ -996,29 +997,29 @@ Once a recurrence has been defined, it can be used to calculate future and past 
 In order to improve performance, recurrences are first compiled prior to time slots being calculated. The compiled version of the recurrence can be reused to find additional time slots as needed.
 
 
-To compile a recurrence, pass the recurrence definition to `cronicle.recurrence`.
+To compile a recurrence, pass the recurrence definition to `recurrify.recurrence`.
 
-`var sched = cronicle.recurrence(recurrence)`
+`var sched = recurrify.recurrence(recurrence)`
 
 **Tip** All recurrence definitions are timezone agnostic. When you need to calculate time slots, you can decide to perform the calculation using local time or UTC.
 
 ```
-// set cronicle to use UTC time (the default)
-cronicle.date.UTC();
+// set recurrify to use UTC time (the default)
+recurrify.date.UTC();
 
-// set cronicle to use local time
-cronicle.date.localTime();
+// set recurrify to use local time
+recurrify.date.localTime();
 ```
 
 ## isValid(date)
 Returns true if the `date` passed in is a valid time slot of the recurrence, false otherwise.
 
-`var valid = cronicle.recurrence(recurrence).isValid(date)`
+`var valid = recurrify.recurrence(recurrence).isValid(date)`
 
 ### Examples
 
 ```
-var sched = cronicle.recurrence(cronicle.parse.recur().on(1,2,3).minute());
+var sched = recurrify.recurrence(recurrify.parse.recur().on(1,2,3).minute());
 
 sched.isValid(new Date('2013-03-22T10:02:00Z'));
 --> true
@@ -1034,26 +1035,26 @@ sched.isValid(new Date('2013-03-22T10:02:05Z'));
 Instances are individual dates that meet all of the constraints that are imposed by the recurrence. Instances can be calculated both forwards and backwards, in any quantity, and optionally between a start and end date. When calculating multiple instances, the minimum time between instances is based on the smallest ranged time period.
 
 
-**cronicle.recurrence(*recurrence*).all(*start, end*)**
+**recurrify.recurrence(*recurrence*).all(*start, end*)**
 Calculates *all* time slots of `recurrence` starting from the `start` date and ending before the `end` date. If an end date is not specified, the maximum results returned is 1000.
 
-`cronicle.recurrence({recurrences: [{m: [5]}]}).all(startDate, endDate)`
+`recurrify.recurrence({recurrences: [{m: [5]}]}).all(startDate, endDate)`
 
-**cronicle.recurrence(*recurrence*).next(*count, start, end*)**
+**recurrify.recurrence(*recurrence*).next(*count, start, end*)**
 Calculates the next `count` time slots of `recurrence`, optionally starting from the `start` date and ending before the `end` date.
 
-`cronicle.recurrence({recurrences: [{m: [5]}]}).next(2)`
+`recurrify.recurrence({recurrences: [{m: [5]}]}).next(2)`
 
 
-**cronicle.recurrence(*recurrence*).prev(*count, start, end*)**
+**recurrify.recurrence(*recurrence*).prev(*count, start, end*)**
 Calculates the previous `count` time slots of `recurrence`, optionally starting from the `start` date and ending before the `end` date. When using previous, the `start` date must be greater than the `end` date.
 
-`cronicle.recurrence({recurrences: [{m: [5]}]}).prev(2)`
+`recurrify.recurrence({recurrences: [{m: [5]}]}).prev(2)`
 
 ### Examples
 ```
 // sched for minute equal to 1,2, or 3
-var sched = cronicle.recurrence(cronicle.parse.recur().on(1,2,3).minute()),
+var sched = recurrify.recurrence(recurrify.parse.recur().on(1,2,3).minute()),
     start = new Date('2013-05-22T10:22:00Z');
 
 // get the next instance
@@ -1079,20 +1080,20 @@ Ranges combine consecutively valid instances into a single start and end block o
 Ranges are useful when scheduling blocks of time such as a meeting or activity. The recurrence definition defines the start and end time of the activity and then ranges are used to find their time slots.
 
 
-**cronicle.recurrence(*recurrence*).nextRange(*count, start, end*)**
+**recurrify.recurrence(*recurrence*).nextRange(*count, start, end*)**
 Calculates the next count ranges of recurrence, optionally starting from the start date and ending before the end date.
 
-`cronicle.recurrence({recurrences: [{m:[5,6,7]}]}).nextRange(2)`
+`recurrify.recurrence({recurrences: [{m:[5,6,7]}]}).nextRange(2)`
 
-**cronicle.recurrence(*recurrence*).prevRange(*count, start, end*)**
+**recurrify.recurrence(*recurrence*).prevRange(*count, start, end*)**
 Calculates the previous count ranges of recurrence, optionally starting from the start date and ending before the end date.
 
-`cronicle.recurrence({recurrences: [{m:[5,6,7]}]}).prevRange(2)`
+`recurrify.recurrence({recurrences: [{m:[5,6,7]}]}).prevRange(2)`
 
 ### Examples
 ```
 // sched for minute equal to 1,2, or 3
-var sched = cronicle.recurrence(cronicle.parse.recur().on(1,2,3).minute()),
+var sched = recurrify.recurrence(recurrify.parse.recur().on(1,2,3).minute()),
     start = new Date('2013-05-22T10:22:00Z');
 
 // get the next range

@@ -1,5 +1,5 @@
 /* eslint-env mocha */
-var cronicle = require('../../index')
+var recurrify = require('../../index')
 
 describe('Compile', function () {
   describe('start', function () {
@@ -7,35 +7,35 @@ describe('Compile', function () {
 
     describe('next', function () {
       it('should return start date if start is valid', function () {
-        cronicle.date.UTC()
-        cronicle.compile({ Y: [2013], M: [3], D: [21], s: [5] }).start('next', d).should.eql(d)
+        recurrify.date.UTC()
+        recurrify.compile({ Y: [2013], M: [3], D: [21], s: [5] }).start('next', d).should.eql(d)
       })
 
       it('should return start date if after modifier is used', function () {
-        cronicle.date.UTC()
-        cronicle.compile({ M: [3], Y_a: [2012] }).start('next', d).should.eql(new Date('2013-03-01T00:00:00Z'))
+        recurrify.date.UTC()
+        recurrify.compile({ M: [3], Y_a: [2012] }).start('next', d).should.eql(new Date('2013-03-01T00:00:00Z'))
       })
 
       it('should return next valid time slot if invalid', function () {
-        cronicle.date.UTC()
-        cronicle.compile({ Y: [2013], M: [4, 5] }).start('next', d).should.eql(new Date('2013-04-01T00:00:00Z'))
+        recurrify.date.UTC()
+        recurrify.compile({ Y: [2013], M: [4, 5] }).start('next', d).should.eql(new Date('2013-04-01T00:00:00Z'))
       })
 
       it('should validate all constraints on a rollover', function () {
-        cronicle.date.UTC()
-        cronicle.compile({ Y: [2013, 2015], M: [1] }).start('next', d).should.eql(new Date('2015-01-01T00:00:00Z'))
+        recurrify.date.UTC()
+        recurrify.compile({ Y: [2013, 2015], M: [1] }).start('next', d).should.eql(new Date('2015-01-01T00:00:00Z'))
       })
     })
 
     describe('prev', function () {
       it('should return start date if start is valid', function () {
-        cronicle.date.UTC()
-        cronicle.compile({ Y: [2013], s: [5] }).start('prev', d).should.eql(d)
+        recurrify.date.UTC()
+        recurrify.compile({ Y: [2013], s: [5] }).start('prev', d).should.eql(d)
       })
 
       it('should return previous valid time slot if invalid', function () {
-        cronicle.date.UTC()
-        cronicle.compile({ Y: [2012] }).start('prev', d).should.eql(new Date('2012-12-31T23:59:59Z'))
+        recurrify.date.UTC()
+        recurrify.compile({ Y: [2012] }).start('prev', d).should.eql(new Date('2012-12-31T23:59:59Z'))
       })
     })
   })
@@ -44,13 +44,13 @@ describe('Compile', function () {
     var d = new Date('2013-03-21T00:00:05Z')
 
     it('should return next invalid time slot if valid', function () {
-      cronicle.date.UTC()
-      cronicle.compile({ Y: [2013, 2014] }).end('next', d).should.eql(new Date('2015-01-01T00:00:00Z'))
+      recurrify.date.UTC()
+      recurrify.compile({ Y: [2013, 2014] }).end('next', d).should.eql(new Date('2015-01-01T00:00:00Z'))
     })
 
     it('should return prev invalid time slot if valid', function () {
-      cronicle.date.UTC()
-      cronicle.compile({ Y: [2013, 2014] }).end('prev', d).should.eql(new Date('2012-12-31T23:59:59Z'))
+      recurrify.date.UTC()
+      recurrify.compile({ Y: [2013, 2014] }).end('prev', d).should.eql(new Date('2012-12-31T23:59:59Z'))
     })
   })
 
@@ -59,25 +59,25 @@ describe('Compile', function () {
 
     describe('next', function () {
       it('should tick the smallest constraint with only one', function () {
-        cronicle.date.UTC()
-        cronicle.compile({ M: [3, 5] }).tick('next', d).should.eql(new Date('2013-04-01T00:00:00Z'))
+        recurrify.date.UTC()
+        recurrify.compile({ M: [3, 5] }).tick('next', d).should.eql(new Date('2013-04-01T00:00:00Z'))
       })
 
       it('should tick the smallest constraint with multiple', function () {
-        cronicle.date.UTC()
-        cronicle.compile({ Y: [2013, 2014], s: [10, 20] }).tick('next', d).should.eql(new Date('2013-03-21T00:00:06Z'))
+        recurrify.date.UTC()
+        recurrify.compile({ Y: [2013, 2014], s: [10, 20] }).tick('next', d).should.eql(new Date('2013-03-21T00:00:06Z'))
       })
     })
 
     describe('prev', function () {
       it('should tick the smallest constraint with only one', function () {
-        cronicle.date.UTC()
-        cronicle.compile({ M: [3, 5] }).tick('prev', d).should.eql(new Date('2013-02-28T23:59:59Z'))
+        recurrify.date.UTC()
+        recurrify.compile({ M: [3, 5] }).tick('prev', d).should.eql(new Date('2013-02-28T23:59:59Z'))
       })
 
       it('should tick the smallest constraint with multiple', function () {
-        cronicle.date.UTC()
-        cronicle.compile({ Y: [2013, 2014], s: [10, 20] }).tick('prev', d).should.eql(new Date('2013-03-21T00:00:04Z'))
+        recurrify.date.UTC()
+        recurrify.compile({ Y: [2013, 2014], s: [10, 20] }).tick('prev', d).should.eql(new Date('2013-03-21T00:00:04Z'))
       })
     })
   })

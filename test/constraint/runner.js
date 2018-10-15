@@ -1,5 +1,5 @@
 /* eslint-env mocha */
-module.exports = function (cronicle, constraint) {
+module.exports = function (recurrify, constraint) {
   function convertToUTC (d) {
     return new Date(Date.UTC(d.getFullYear(), d.getMonth(), d.getDate(),
       d.getHours(), d.getMinutes(), d.getSeconds()))
@@ -15,7 +15,7 @@ module.exports = function (cronicle, constraint) {
     var exString = utc && (ex instanceof Date) ? ex.toUTCString() : ex
 
     it('should return ' + exString + ' for ' + dateString, function () {
-      if (utc) cronicle.date.UTC(); else cronicle.date.localTime()
+      if (utc) recurrify.date.UTC(); else recurrify.date.localTime()
       var actual = constraint[fn](date)
       actual = actual instanceof Date ? actual.getTime() : actual
       ex = ex instanceof Date ? ex.getTime() : ex
@@ -45,7 +45,7 @@ module.exports = function (cronicle, constraint) {
     var dateString = utc ? date.toUTCString() : date
 
     it('should return first date after ' + dateString + ' with val ' + amt, function () {
-      if (utc) cronicle.date.UTC(); else cronicle.date.localTime()
+      if (utc) recurrify.date.UTC(); else recurrify.date.localTime()
 
       var next = constraint.next(date, amt)
 
@@ -65,8 +65,8 @@ module.exports = function (cronicle, constraint) {
       // result should match ex, should be greater than date, and should
       // be at the start of the time period
       // if check is hack to support year constraints which can return undefined
-      if (constraint.name === 'year' && (amt <= constraint.val(date) || amt > cronicle.Y.extent()[1])) {
-        next.should.eql(cronicle.NEVER)
+      if (constraint.name === 'year' && (amt <= constraint.val(date) || amt > recurrify.Y.extent()[1])) {
+        next.should.eql(recurrify.NEVER)
       } else {
         constraint.isValid(next, ex).should.eql(true)
         next.getTime().should.be.above(date.getTime())
@@ -86,7 +86,7 @@ module.exports = function (cronicle, constraint) {
     var dateString = utc ? date.toUTCString() : date
 
     it('should return first date before ' + dateString + ' with val ' + amt, function () {
-      if (utc) cronicle.date.UTC(); else cronicle.date.localTime()
+      if (utc) recurrify.date.UTC(); else recurrify.date.localTime()
 
       var prev = constraint.prev(date, amt)
 
@@ -101,8 +101,8 @@ module.exports = function (cronicle, constraint) {
       // result should match ex, should be greater than date, and should
       // be at the start of the time period
       // if check is hack to support year constraints which can return undefined
-      if (constraint.name === 'year' && (amt >= constraint.val(date) || amt < cronicle.Y.extent()[0])) {
-        prev.should.eql(cronicle.NEVER)
+      if (constraint.name === 'year' && (amt >= constraint.val(date) || amt < recurrify.Y.extent()[0])) {
+        prev.should.eql(recurrify.NEVER)
       } else {
         constraint.isValid(prev, ex).should.eql(true)
         prev.getTime().should.be.below(date.getTime())

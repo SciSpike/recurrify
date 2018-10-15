@@ -1,12 +1,12 @@
 /* eslint-env mocha */
-var cronicle = require('../../index')
+var recurrify = require('../../index')
 
-var recurrence = cronicle.recurrence
+var recurrence = recurrify.recurrence
 
 var should = require('should')
 
 describe('recurrence', function () {
-  cronicle.date.UTC()
+  recurrify.date.UTC()
 
   describe('isValid', function () {
     var d = new Date('2013-03-21T00:00:05Z')
@@ -56,14 +56,14 @@ describe('recurrence', function () {
       ])
     })
 
-    it('should return cronicle.NEVER if no next valid date exists', function () {
+    it('should return recurrify.NEVER if no next valid date exists', function () {
       var s = { recurrences: [{ Y: [2012] }] }
-      should.equal(recurrence(s).next(1, d), cronicle.NEVER)
+      should.equal(recurrence(s).next(1, d), recurrify.NEVER)
     })
 
-    it('should return cronicle.NEVER if end date precludes a valid recurrence', function () {
+    it('should return recurrify.NEVER if end date precludes a valid recurrence', function () {
       var s = { recurrences: [{ Y: [2017] }] }
-      should.equal(recurrence(s).next(1, d, e), cronicle.NEVER)
+      should.equal(recurrence(s).next(1, d, e), recurrify.NEVER)
     })
   })
 
@@ -96,14 +96,14 @@ describe('recurrence', function () {
       ])
     })
 
-    it('should return cronicle.NEVER if no prev valid date exists', function () {
+    it('should return recurrify.NEVER if no prev valid date exists', function () {
       var s = { recurrences: [{ Y: [2017] }] }
-      should.equal(recurrence(s).prev(1, d), cronicle.NEVER)
+      should.equal(recurrence(s).prev(1, d), recurrify.NEVER)
     })
 
-    it('should return cronicle.NEVER if end date precludes a valid recurrence', function () {
+    it('should return recurrify.NEVER if end date precludes a valid recurrence', function () {
       var s = { recurrences: [{ Y: [2009] }] }
-      should.equal(recurrence(s).prev(1, d, e), cronicle.NEVER)
+      should.equal(recurrence(s).prev(1, d, e), recurrify.NEVER)
     })
   })
 
@@ -288,24 +288,24 @@ describe('recurrence', function () {
       ])
     })
 
-    it('should return cronicle.NEVER if no valid date exists', function () {
+    it('should return recurrify.NEVER if no valid date exists', function () {
       const startDate = new Date('2018-10-01T00:00:00Z')
       const endDate = new Date('2018-11-01T00:00:00Z')
       const s = { recurrences: [{ Y: [2012] }] }
-      should.equal(recurrence(s).all(startDate, endDate), cronicle.NEVER)
+      should.equal(recurrence(s).all(startDate, endDate), recurrify.NEVER)
     })
 
-    it('should return cronicle.NEVER if no valid date exists with only startDate passed', function () {
+    it('should return recurrify.NEVER if no valid date exists with only startDate passed', function () {
       const startDate = new Date('2018-10-01T00:00:00Z')
       const s = { recurrences: [{ Y: [2012] }] }
-      should.equal(recurrence(s).all(startDate), cronicle.NEVER)
+      should.equal(recurrence(s).all(startDate), recurrify.NEVER)
     })
 
-    it('should return cronicle.NEVER if end date precludes a valid recurrence', function () {
+    it('should return recurrify.NEVER if end date precludes a valid recurrence', function () {
       const startDate = new Date('2013-03-21T00:00:05Z')
       const endDate = new Date('2016-01-01T00:00:05Z')
       const s = { recurrences: [{ Y: [2017] }] }
-      should.equal(recurrence(s).all(startDate, endDate), cronicle.NEVER)
+      should.equal(recurrence(s).all(startDate, endDate), recurrify.NEVER)
     })
 
     it('should return all valid dates if one exists with exceptions', function () {

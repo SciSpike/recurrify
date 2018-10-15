@@ -1,11 +1,11 @@
 /* eslint-env mocha */
-var cronicle = require('../../index')
+var recurrify = require('../../index')
 
 var should = require('should')
 
-describe('cronicle.array.nextInvalid', function () {
+describe('recurrify.array.nextInvalid', function () {
   it('should exist', function () {
-    should.exist(cronicle.array.nextInvalid)
+    should.exist(recurrify.array.nextInvalid)
   })
 
   it('should return the next invalid value', function () {
@@ -17,7 +17,7 @@ describe('cronicle.array.nextInvalid', function () {
 
     var expected = 3
 
-    var actual = cronicle.array.nextInvalid(cur, arr, extent)
+    var actual = recurrify.array.nextInvalid(cur, arr, extent)
 
     actual.should.eql(expected)
   })
@@ -31,7 +31,7 @@ describe('cronicle.array.nextInvalid', function () {
 
     var expected = 6
 
-    var actual = cronicle.array.nextInvalid(cur, arr, extent)
+    var actual = recurrify.array.nextInvalid(cur, arr, extent)
 
     actual.should.eql(expected)
   })
@@ -45,7 +45,7 @@ describe('cronicle.array.nextInvalid', function () {
 
     var expected = 3
 
-    var actual = cronicle.array.nextInvalid(cur, arr, extent)
+    var actual = recurrify.array.nextInvalid(cur, arr, extent)
 
     actual.should.eql(expected)
   })
@@ -59,7 +59,7 @@ describe('cronicle.array.nextInvalid', function () {
 
     var expected = 3
 
-    var actual = cronicle.array.nextInvalid(cur, arr, extent)
+    var actual = recurrify.array.nextInvalid(cur, arr, extent)
 
     actual.should.eql(expected)
   })
@@ -73,7 +73,7 @@ describe('cronicle.array.nextInvalid', function () {
 
     var expected = 4
 
-    var actual = cronicle.array.nextInvalid(cur, arr, extent)
+    var actual = recurrify.array.nextInvalid(cur, arr, extent)
 
     actual.should.eql(expected)
   })

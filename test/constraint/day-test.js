@@ -1,9 +1,9 @@
 /* eslint-env mocha */
-var cronicle = require('../../index')
+var recurrify = require('../../index')
 
-var runner = require('./runner')(cronicle, cronicle.day)
+var runner = require('./runner')(recurrify, recurrify.day)
 
-describe('cronicle.day', function () {
+describe('recurrify.day', function () {
   var tests = [
     {
       // first second of year
