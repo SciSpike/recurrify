@@ -1,7 +1,7 @@
 {
   "name": "recurrify",
   "version": "0.0.0-pre.6",
-  "description": "TODO",
+  "description": "Find time slots given a recurrence",
   "main": "index.js",
   "scripts": {
     "test": "npm-run-all unit lint",
