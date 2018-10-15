@@ -7,6 +7,7 @@ Based on a shameless fork of [later.js](https://github.com/kirkins/later).
 * Removed `setTimeout` and `setInterval` implementations
 * Removed bower and Makefile
 * Renamed `schedule` to `recurrence` and `occurrence` to `time slot`
+* Renamed package from `cronicle` to `recurrify`
 * WIP to update syntax to more modern ES6+
 
 ## Installation
