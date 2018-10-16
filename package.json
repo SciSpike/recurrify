@@ -1,6 +1,6 @@
 {
   "name": "recurrify",
-  "version": "0.0.0-pre.6",
+  "version": "0.1.0-pre.0",
   "description": "Find time slots given a recurrence",
   "main": "index.js",
   "scripts": {
