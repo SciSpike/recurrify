@@ -15,7 +15,11 @@
     "url": "git+https://github.com/SciSpike/recurrify.git"
   },
   "keywords": [
-    "cron", "recurrence", "schedule", "time slot", "availability"
+    "cron",
+    "recurrence",
+    "schedule",
+    "time slot",
+    "availability"
   ],
   "license": "MIT",
   "bugs": {
