@@ -1082,7 +1082,7 @@ When calculating multiple instances, the minimum time between instances is based
 
 **`recurrify.recurrence(recurrence).all(start, end)`**
 Calculates *all* time slots of `recurrence` starting from the `start` date and ending before the `end` date.
-If an end date is not specified, the maximum results returned is `1000`.
+If an end date is not specified, the maximum results returned is `1000000`.
 
 `recurrify.recurrence({recurrences: [{m: [5]}]}).all(startDate, endDate)`
 
