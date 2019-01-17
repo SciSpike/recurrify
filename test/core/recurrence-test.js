@@ -122,11 +122,11 @@ describe('recurrence', function () {
       var d = new Date('2013-03-21T00:00:05Z')
 
       var s = {
-        recurrences: [ { dw: [ 2, 3, 4, 5, 6 ], h_a: [ 8 ], h_b: [ 16 ] } ],
+        recurrences: [{ dw: [2, 3, 4, 5, 6], h_a: [8], h_b: [16] }],
         exceptions:
-             [ { fd_a: [ 1362420000000 ], fd_b: [ 1362434400000 ] },
-               { fd_a: [ 1363852800000 ], fd_b: [ 1363860000000 ] },
-               { fd_a: [ 1364499200000 ], fd_b: [ 1364516000000 ] } ]
+          [{ fd_a: [1362420000000], fd_b: [1362434400000] },
+            { fd_a: [1363852800000], fd_b: [1363860000000] },
+            { fd_a: [1364499200000], fd_b: [1364516000000] }]
       }
 
       recurrence(s).nextRange(1, d).should.eql([
@@ -139,7 +139,7 @@ describe('recurrence', function () {
       var d = new Date('2013-03-21T00:00:05Z')
 
       var s = {
-        recurrences: [ { fd_a: [ 1363824005000 ] } ]
+        recurrences: [{ fd_a: [1363824005000] }]
       }
 
       recurrence(s).nextRange(3, d).should.eql([
@@ -163,7 +163,7 @@ describe('recurrence', function () {
       var d = new Date('2013-03-21T00:00:05Z')
 
       var s = {
-        recurrences: [ { fd_b: [ 1363824005000 ] } ]
+        recurrences: [{ fd_b: [1363824005000] }]
       }
 
       recurrence(s).prevRange(3, d).should.eql([
@@ -317,6 +317,36 @@ describe('recurrence', function () {
         new Date('2017-01-01T00:00:00Z'),
         new Date('2019-01-01T00:00:00Z')
       ])
+    })
+    it('should work when a recurrence is specified that contains empty array values', function () {
+      const startDate = new Date('2019-01-21T00:00:00Z')
+      const endDate = new Date('2019-01-31T00:00:00Z')
+      const s = { recurrences: [ { dw: [7], h: [], m: [30] } ] }
+      recurrence(s).all(startDate, endDate).should.eql([
+        new Date('2019-01-26T00:30:00.000Z'),
+        new Date('2019-01-26T01:30:00.000Z'),
+        new Date('2019-01-26T02:30:00.000Z'),
+        new Date('2019-01-26T03:30:00.000Z'),
+        new Date('2019-01-26T04:30:00.000Z'),
+        new Date('2019-01-26T05:30:00.000Z'),
+        new Date('2019-01-26T06:30:00.000Z'),
+        new Date('2019-01-26T07:30:00.000Z'),
+        new Date('2019-01-26T08:30:00.000Z'),
+        new Date('2019-01-26T09:30:00.000Z'),
+        new Date('2019-01-26T10:30:00.000Z'),
+        new Date('2019-01-26T11:30:00.000Z'),
+        new Date('2019-01-26T12:30:00.000Z'),
+        new Date('2019-01-26T13:30:00.000Z'),
+        new Date('2019-01-26T14:30:00.000Z'),
+        new Date('2019-01-26T15:30:00.000Z'),
+        new Date('2019-01-26T16:30:00.000Z'),
+        new Date('2019-01-26T17:30:00.000Z'),
+        new Date('2019-01-26T18:30:00.000Z'),
+        new Date('2019-01-26T19:30:00.000Z'),
+        new Date('2019-01-26T20:30:00.000Z'),
+        new Date('2019-01-26T21:30:00.000Z'),
+        new Date('2019-01-26T22:30:00.000Z'),
+        new Date('2019-01-26T23:30:00.000Z')])
     })
   })
 })
