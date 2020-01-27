@@ -1,6 +1,12 @@
 # recurrify
 
-Based on a shameless fork of [later.js](https://github.com/kirkins/later).
+> DEPRECATION NOTE:
+> Since the time this package was created, SciSpike has been acquired by [Northscaler](https://www.northscaler.com).
+> There will be no further development on this module.
+> Instead, development will continue at [@northscaler/recurrify](https://www.npmjs.com/package/@northscaler/recurrify).
+> You can see all of Northscaler's public Node.js modules at https://www.npmjs.com/search?q=%40northscaler.
+
+>Based on a shameless fork of [later.js](https://github.com/kirkins/later).
 
 * Added ability to get *all* time slots of a recurrence between a start and end time
 * Removed the parsers in favor of just dealing with recurrence definitions directly
